@@ -1,0 +1,46 @@
+-----------------------Design Pattern-----------------------
+1. Command Pattern: 
+   According to section 3.1 we used Command Pattern to support 
+   express and standard shipping for any company.
+   
+   #Note:
+   On DHLExpressCommand there is a method setNewProduct() that's do nothing.
+   The reason for that is, that we want that DHL express can support in the future 
+   a calculation for the shipping with product data.  
+   
+   
+   
+   
+    
+   Interfaces:
+   A) ICommand - Handling execution of commands and modify products.
+   B) IShippingReceiver - Supporting the data that will be received after execution.
+   
+   The commands that implements ICommand:
+   A) FedExStandardCommand
+   B) FedExExpressCommand
+   C) DHLStandardCommand
+   D) DHLExpressCommand
+   
+   Abstract class:
+   A) ShippingCompany
+   
+   Inheritance classes:
+   A) FedEx
+   B) DHL
+   
+   Receiver classes that implements IShippingReceiver:
+   A) FedExReceiver
+   B) DHLReceiver
+   
+   Invoker:
+   A) ShippingInvoker - A controller of all commands.
+   
+   ##Future Support##
+   The system can support new type of shipping for example shipping with ship.
+   To support the new ship type, you need to modify the ShippingInvoker (adding set of new ship commands).
+   The system can support new shipping companies.
+   You don't need to modify the existing method and interfaces. 
+    
+2. 
+
