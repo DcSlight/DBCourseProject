@@ -1,4 +1,4 @@
-package DB;
+package DB.Entities;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import Components.Customer;
+import DB.BasicTable;
 
 public class CustomerTable extends BasicTable<String,Object> {
 	
@@ -22,15 +23,11 @@ public class CustomerTable extends BasicTable<String,Object> {
         return customer;
     }
     
-    public void findCustomerByFullName(String fullName) {
-    	try {
-			ResultSet rs =this.findBy(this.fullName, fullName);
-			 while (rs.next()) {
-				 System.out.println((rs.getInt(this.CustomerID) + "- " + rs.getString(this.fullName)+ "- "  + rs.getString(this.phoneNumber)));
-			 }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    public Customer findCustomerByFullName(String fullName) throws Exception{
+    	Customer c;
+		ResultSet rs =this.findBy(this.fullName, fullName);
+		c = mapResultSetToEntity(rs);
+		return c;
     }
 
     public void createCustomer(Customer customer) throws Exception {

@@ -4,26 +4,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import Components.Customer;
-import DB.CustomerTable;
+import Components.Contact;
+import Components.Contact;
+import DB.Entities.*;
 import DB.DatabaseConnection;
 
 public class test {
 
 	public static void findBy(Connection conn) {
         try {
-            CustomerTable customerTable = new CustomerTable(conn);
-            customerTable.findCustomerByFullName("John Doe");
+            ContactTable contactTable = new ContactTable(conn);
+            contactTable.findContactByFullName("John Doe");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 	}
 	
-	public static Customer create(Connection conn,String name , String mobile) {
+	public static Contact create(Connection conn,String name , String mobile) {
         try {
-            CustomerTable customerTable = new CustomerTable(conn);
-            Customer c = new Customer(name , mobile);
-            customerTable.createCustomer(c);
+            ContactTable contactTable = new ContactTable(conn);
+            Contact c = new Contact(name , mobile);
+            contactTable.createContact(c);
             return c;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -31,10 +32,10 @@ public class test {
 		return null;
 	}
 	
-	public static void update(Connection conn,Customer c) {
+	public static void update(Connection conn,Contact c) {
         try {
-            CustomerTable customerTable = new CustomerTable(conn);
-            customerTable.updateCustomerPhoneNumber("050-1114545", c);
+            ContactTable contactTable = new ContactTable(conn);
+            contactTable.updateContactPhoneNumber("050-1114545", c);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -42,17 +43,17 @@ public class test {
 	
 	public static void findAll(Connection conn) {
         try {
-            CustomerTable customerTable = new CustomerTable(conn);
-            customerTable.printAllCustomers();
+            ContactTable contactTable = new ContactTable(conn);
+            contactTable.printAllContacts();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 	}
 	
-	public static void deleteCustomer(Connection conn) {
+	public static void deleteContact(Connection conn) {
         try {
-            CustomerTable customerTable = new CustomerTable(conn);
-            customerTable.deleteCustomer(1);
+            ContactTable contactTable = new ContactTable(conn);
+            contactTable.deleteContact(1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -64,21 +65,10 @@ public class test {
 		Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
-            System.out.println("----------------------");
-            findBy(conn);
-            System.out.println("----------------------");
+            deleteContact(conn);
+            Contact c = create(conn,"sapir" , "050");
+            update(conn, c);
             findAll(conn);
-            System.out.println("----------------------");
-            Customer c = create(conn,"sapir" , "050");
-            System.out.println("----------------------");
-            update(conn,c);
-            System.out.println("----------------------");
-            findAll(conn);
-            System.out.println("----------------------");
-        //    deleteCustomer(conn);
-            System.out.println("----------------------");
-            findAll(conn);
-            System.out.println("----------------------");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
