@@ -9,9 +9,9 @@ import Components.Customer;
 
 public class CustomerTable extends BasicTable<String,Object> {
 	
-	private String CustomerID = "CustomerID";
-	private String fullName = "FullName";
-	private String phoneNumber = "PhoneName";
+	private String CustomerID = "customer_id";
+	private String fullName = "full_name";
+	private String phoneNumber = "phone_number";
 
     public CustomerTable(Connection conn) {
         super(conn, "Customer");
