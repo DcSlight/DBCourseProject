@@ -1,15 +1,16 @@
 package DB;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import Components.Customer;
 
-public class CustomerTable extends BasicTable<String, Customer> {
+public class CustomerTable extends BasicTable<String,Object> {
+	
+	private String fullName = "full_name";
+	private String phoneNumber = "phone_number";
 
     public CustomerTable(Connection conn) {
         super(conn, "Customer");
@@ -32,18 +33,18 @@ public class CustomerTable extends BasicTable<String, Customer> {
 		}
     }
 
-    @Override
-    public void create(Map<String, Customer> entity) throws Exception {
-//        String sql = "INSERT INTO " + this.tableName + " (full_name, phone_number) VALUES (?, ?)";
-//        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-//            stmt.setString(1, entity.get("full_name").getFullName());
-//            stmt.setString(2, entity.get("phone_number").getPhoneNumber());
-//            stmt.executeUpdate();
-//        }
+    public void createCustomer(Customer customer) throws Exception {
+        // Create a map to hold column-value pairs
+        Map<String, Object> entityMap = new HashMap<>();
+        entityMap.put("full_name", customer.getCustomerName());
+        entityMap.put("phone_number", customer.getMobile());
+
+        // Call the generic create method
+        this.create(entityMap);
     }
 
     @Override
-    public void update(Map<String, Customer> entity) throws Exception {
+    public void update(Map<String, Object> entity) throws Exception {
 //        String sql = "UPDATE " + this.tableName + " SET full_name = ?, phone_number = ? WHERE id = ?";
 //        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 //            stmt.setString(1, entity.get("full_name").getFullName());
