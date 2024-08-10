@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author idan
- *
- */
-module CourseFinalDesignPattern {
-}
