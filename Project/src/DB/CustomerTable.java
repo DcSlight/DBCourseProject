@@ -17,18 +17,17 @@ public class CustomerTable extends BasicTable<String,Object> {
     }
 
     protected Customer mapResultSetToEntity(ResultSet rs) throws SQLException {
-        Customer customer = new Customer(rs.getString("full_name"),rs.getString("phone_number"));
+        Customer customer = new Customer(rs.getString(fullName),rs.getString(phoneNumber));
         return customer;
     }
     
     public void findCustomerByFullName(String fullName) {
     	try {
-			ResultSet rs =this.findBy("full_name", fullName);
+			ResultSet rs =this.findBy(fullName, fullName);
 			 while (rs.next()) {
-				 System.out.println((rs.getInt("id") + "- " + rs.getString("full_name")+ "- "  + rs.getString("phone_number")));
+				 System.out.println((rs.getInt("id") + "- " + rs.getString(fullName)+ "- "  + rs.getString(phoneNumber)));
 			 }
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -36,22 +35,18 @@ public class CustomerTable extends BasicTable<String,Object> {
     public void createCustomer(Customer customer) throws Exception {
         // Create a map to hold column-value pairs
         Map<String, Object> entityMap = new HashMap<>();
-        entityMap.put("full_name", customer.getCustomerName());
-        entityMap.put("phone_number", customer.getMobile());
+        entityMap.put(fullName, customer.getCustomerName());
+        entityMap.put(phoneNumber, customer.getMobile());
 
         // Call the generic create method
         this.create(entityMap);
     }
 
-    @Override
-    public void update(Map<String, Object> entity) throws Exception {
-//        String sql = "UPDATE " + this.tableName + " SET full_name = ?, phone_number = ? WHERE id = ?";
-//        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-//            stmt.setString(1, entity.get("full_name").getFullName());
-//            stmt.setString(2, entity.get("phone_number").getPhoneNumber());
-//            stmt.setInt(3, entity.get("id").getId());
-//            stmt.executeUpdate();
-//        }
+    public void updateCustomerPhoneNumber(String mobile, Customer customer) throws Exception {
+        Map<String, Object> entityMap = new HashMap<>();
+        entityMap.put(fullName, customer.getCustomerName());
+        entityMap.put(phoneNumber, mobile);
+        this.update(entityMap, fullName, customer.getCustomerName());
     }
 
     @Override
@@ -72,4 +67,10 @@ public class CustomerTable extends BasicTable<String,Object> {
     public void delete() throws Exception {
         // Implement deletion logic based on your requirements
     }
+
+	@Override
+	public void update(Map<String, Object> entity) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 }

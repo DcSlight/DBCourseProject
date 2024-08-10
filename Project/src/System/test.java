@@ -19,11 +19,22 @@ public class test {
         }
 	}
 	
-	public static void create(Connection conn) {
+	public static Customer create(Connection conn) {
         try {
             CustomerTable customerTable = new CustomerTable(conn);
             Customer c = new Customer("idan" , "0506005050");
             customerTable.createCustomer(c);
+            return c;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+		return null;
+	}
+	
+	public static void update(Connection conn,Customer c) {
+        try {
+            CustomerTable customerTable = new CustomerTable(conn);
+            customerTable.updateCustomerPhoneNumber("050-1114545", c);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -36,7 +47,9 @@ public class test {
         try {
             conn = DatabaseConnection.getConnection();
             //findBy(conn);
-            create(conn);
+            Customer c =create(conn);
+            update(conn,c);
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
