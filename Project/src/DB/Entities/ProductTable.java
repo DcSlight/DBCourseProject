@@ -43,12 +43,11 @@ public class ProductTable extends BasicTable<String,Object> {
         Map<String, Object> entityMap = new HashMap<>();
         entityMap.put(this.serial, product.getSerial());
         entityMap.put(this.productName, product.getProductName());
-        entityMap.put(this.type, product.getType());
+        entityMap.put(this.type + "::product_type ", product.getType().toString()); //enum
         entityMap.put(this.costPrice, product.getCostPrice());
         entityMap.put(this.sellingPrice, product.getSellingPrice());
         entityMap.put(this.stock, product.getStock());
         entityMap.put(this.weight, product.getWeight());
-
         // Call the generic create method
         this.create(entityMap);
     }
@@ -57,7 +56,7 @@ public class ProductTable extends BasicTable<String,Object> {
         Map<String, Object> entityMap = new HashMap<>();
         entityMap.put(this.serial, product.getSerial());
         entityMap.put(this.productName, product.getProductName());
-        entityMap.put(this.type, product.getType());
+        entityMap.put(this.type + "::product_type ", product.getType().toString());
         entityMap.put(this.costPrice, product.getCostPrice());
         entityMap.put(this.sellingPrice, product.getSellingPrice());
         entityMap.put(this.stock, product.getStock());

@@ -26,3 +26,11 @@ CREATE TABLE Product (
     weight DECIMAL(10, 2) NOT NULL
 );
 
+select * from Product
+
+INSERT INTO Product (selling_price, serial, weight, type, stock, product_name, cost_price) 
+VALUES (87.58, 'AAB12', 0.25, 'eProductWebsite', 400, 'Iphone 15 protector', 7.5);
+
+
+
+

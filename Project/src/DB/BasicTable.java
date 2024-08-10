@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
 
+import eNums.eProduct;
+
 public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	protected Connection conn;
 	protected String tableName;
@@ -18,11 +20,16 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	public void create(Map<K, V> entity) throws Exception {
 	    StringBuffer columns = new StringBuffer();
 	    StringBuffer values = new StringBuffer();
-	
 	    // Loop through the map and prepare the columns and placeholder
 	    for (K key : entity.keySet()) {
-	        columns.append(key.toString()+",");
-	        values.append("?"+",");
+	    	if(key.toString().contains("::")) {//support ENUMS
+	    		String[] parts = key.toString().split("::");
+	    		columns.append(parts[0].toString()+",");
+	    		values.append("?::"+parts[1]+",");
+	    	}else {
+		        columns.append(key.toString()+",");
+		        values.append("?"+",");
+	    	}
 	    }
 	    columns.deleteCharAt(columns.length()-1); //remove the ,
 	    values.deleteCharAt(values.length()-1);
@@ -45,8 +52,14 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	    StringBuffer params = new StringBuffer();
 	
 	    // Loop through the map to construct the SET clause
-	    for (Map.Entry<K, V> entry : entity.entrySet()) {
-	    	params.append(entry.getKey() + " = ?,");
+	    for (Map.Entry<K, V> entry : entity.entrySet()) {	
+	    	
+	    	if(entry.getKey().toString().contains("::")) {//support ENUMS
+	    		String[] parts = entry.getKey().toString().split("::");
+	    		params.append(parts[0] + " = ?::"+parts[1]+",");
+	    	}else {
+	    		params.append(entry.getKey() + " = ?,");
+	    	}
 	    }
 	    
 	    params.deleteCharAt(params.length()-1);

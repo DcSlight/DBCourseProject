@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import Components.Contact;
 import Components.Contact;
 import DB.Entities.*;
+import Products.Product;
+import Products.ProductSoldThroughWebsite;
+import Products.ProductSoldToWholesalers;
 import DB.DatabaseConnection;
 
 public class test {
@@ -59,16 +62,13 @@ public class test {
         }
 	}
 	
-	
-	
 	public static void main(String[] args) {
 		Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
-            deleteContact(conn);
-            Contact c = create(conn,"sapir" , "050");
-            update(conn, c);
-            findAll(conn);
+            Product p1 = new ProductSoldToWholesalers("AAB12", "TV", 7.5,87.58 , 400, 0.25);
+            ProductTable pt = new ProductTable(conn);
+            pt.updateProductBySerial(p1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
