@@ -39,6 +39,7 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	    stmt.executeUpdate();
     }
 	
+	@Override
 	public void update(Map<K, V> entity, String primaryKeyColumn, V primaryKeyValue) throws Exception {
 	    // Construct the SET params of the SQL UPDATE statement
 	    StringBuffer params = new StringBuffer();
@@ -57,7 +58,6 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	    }
 	    // Set the primary key value for the WHERE clause
 	    stmt.setObject(index, primaryKeyValue);
-	
 	    stmt.executeUpdate();
 	}
 
@@ -70,17 +70,19 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	    return rs;
 	}
 
+	@Override
+    public ResultSet findAll() throws Exception {
+        String sql = "SELECT * FROM " + tableName;
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        return stmt.executeQuery(); // Return the ResultSet containing all rows
+    }
 
 	@Override
-	public ResultSet findAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete() throws Exception {
-		// TODO Auto-generated method stub
-		
+	public int delete(K primaryKeyColumn, V primaryKeyValue) throws Exception {
+	    String sql = "DELETE FROM " + tableName + " WHERE " + primaryKeyColumn + " = ?";
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setObject(1, primaryKeyValue);
+        return stmt.executeUpdate(); // Returns the number of rows affected
 	}
 
 }

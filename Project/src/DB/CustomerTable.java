@@ -23,9 +23,9 @@ public class CustomerTable extends BasicTable<String,Object> {
     
     public void findCustomerByFullName(String fullName) {
     	try {
-			ResultSet rs =this.findBy(fullName, fullName);
+			ResultSet rs =this.findBy(this.fullName, fullName);
 			 while (rs.next()) {
-				 System.out.println((rs.getInt("id") + "- " + rs.getString(fullName)+ "- "  + rs.getString(phoneNumber)));
+				 System.out.println((rs.getInt("id") + "- " + rs.getString(this.fullName)+ "- "  + rs.getString(this.phoneNumber)));
 			 }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,28 +49,14 @@ public class CustomerTable extends BasicTable<String,Object> {
         this.update(entityMap, fullName, customer.getCustomerName());
     }
 
-    @Override
-    public ResultSet findAll() throws Exception {
-//        String sql = "SELECT * FROM " + this.tableName;
-//        PreparedStatement stmt = conn.prepareStatement(sql);
-//        ResultSet rs = stmt.executeQuery();
-//
-//        List<Customer> customers = new ArrayList<>();
-//        while (rs.next()) {
-//            customers.add(mapResultSetToEntity(rs));
-//        }
-//        return customers;
-    	return null;
+    public void printAllCustomers() throws Exception {
+        ResultSet rs = this.findAll();
+        while (rs.next()) {
+            System.out.println(rs.getInt("id") + "- " + rs.getString("full_name") + "- " + rs.getString("phone_number"));
+        }
     }
 
-    @Override
-    public void delete() throws Exception {
-        // Implement deletion logic based on your requirements
+    public int deleteCustomer(int id) throws Exception {
+        return this.delete("id", id);
     }
-
-	@Override
-	public void update(Map<String, Object> entity) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 }
