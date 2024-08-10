@@ -1,9 +1,7 @@
 /**
- * 
- */
-/**
  * @author idan
  *
  */
-module CourseFinalDesignPattern {
+module DBCourse {
+	requires java.sql;
 }
