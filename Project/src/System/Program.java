@@ -32,34 +32,8 @@ public class Program {
 	public static final String EXIT_1 = "E";
 	public static final String EXIT_2 = "e";
 	public static final Boolean POSITIVE = true;
-	
-	public static void connecting() {
-		 Connection conn = null;
-	        try {
-	            conn = DatabaseConnection.getConnection();
-	            String query = "CREATE TABLE Persons (\r\n"
-	            		+ "    PersonID int,\r\n"
-	            		+ "    LastName varchar(255),\r\n"
-	            		+ "    FirstName varchar(255),\r\n"
-	            		+ "    Address varchar(255),\r\n"
-	            		+ "    City varchar(255)\r\n"
-	            		+ ");";
-	            PreparedStatement stmt = conn.prepareStatement(query);
-	            ResultSet rs = stmt.executeQuery();
-	            System.out.println(query);
 
-	        } catch (Exception e) {
-	            System.out.println(e.getMessage());
-	        } finally {
-	            DatabaseConnection.closeConnection(conn);
-	            System.out.println("Close");
-	        }
-	}
-
-	public static void main(String[] args) throws Exception  {
-		
-		connecting();
-		
+	public static void main(String[] args) throws Exception  {		
 		
 		Scanner sc = new Scanner(System.in);
 		SystemFacade systemFacade = SystemFacade.getInstance();
