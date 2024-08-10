@@ -1,9 +1,13 @@
 package System;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Components.Customer;
+import DB.DatabaseConnection;
 import Exception.StockException;
 import Products.Product;
 import Products.ProductFactory;
@@ -29,9 +33,34 @@ public class Program {
 	public static final String EXIT_2 = "e";
 	public static final Boolean POSITIVE = true;
 	
-	//checking
+	public static void connecting() {
+		 Connection conn = null;
+	        try {
+	            conn = DatabaseConnection.getConnection();
+	            String query = "CREATE TABLE Persons (\r\n"
+	            		+ "    PersonID int,\r\n"
+	            		+ "    LastName varchar(255),\r\n"
+	            		+ "    FirstName varchar(255),\r\n"
+	            		+ "    Address varchar(255),\r\n"
+	            		+ "    City varchar(255)\r\n"
+	            		+ ");";
+	            PreparedStatement stmt = conn.prepareStatement(query);
+	            ResultSet rs = stmt.executeQuery();
+	            System.out.println(query);
+
+	        } catch (Exception e) {
+	            System.out.println(e.getMessage());
+	        } finally {
+	            DatabaseConnection.closeConnection(conn);
+	            System.out.println("Close");
+	        }
+	}
 
 	public static void main(String[] args) throws Exception  {
+		
+		connecting();
+		
+		
 		Scanner sc = new Scanner(System.in);
 		SystemFacade systemFacade = SystemFacade.getInstance();
 		boolean flag = true;
