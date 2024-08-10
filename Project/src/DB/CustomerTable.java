@@ -9,8 +9,9 @@ import Components.Customer;
 
 public class CustomerTable extends BasicTable<String,Object> {
 	
-	private String fullName = "full_name";
-	private String phoneNumber = "phone_number";
+	private String CustomerID = "CustomerID";
+	private String fullName = "FullName";
+	private String phoneNumber = "PhoneName";
 
     public CustomerTable(Connection conn) {
         super(conn, "Customer");
@@ -25,7 +26,7 @@ public class CustomerTable extends BasicTable<String,Object> {
     	try {
 			ResultSet rs =this.findBy(this.fullName, fullName);
 			 while (rs.next()) {
-				 System.out.println((rs.getInt("id") + "- " + rs.getString(this.fullName)+ "- "  + rs.getString(this.phoneNumber)));
+				 System.out.println((rs.getInt(this.CustomerID) + "- " + rs.getString(this.fullName)+ "- "  + rs.getString(this.phoneNumber)));
 			 }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,11 +53,11 @@ public class CustomerTable extends BasicTable<String,Object> {
     public void printAllCustomers() throws Exception {
         ResultSet rs = this.findAll();
         while (rs.next()) {
-            System.out.println(rs.getInt("id") + "- " + rs.getString("full_name") + "- " + rs.getString("phone_number"));
+            System.out.println(rs.getInt(this.CustomerID) + "- " + rs.getString(this.fullName) + "- " + rs.getString(this.phoneNumber));
         }
     }
 
     public int deleteCustomer(int id) throws Exception {
-        return this.delete("id", id);
+        return this.delete(this.CustomerID, id);
     }
 }
