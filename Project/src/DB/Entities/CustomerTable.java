@@ -5,13 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
+import Components.Country;
 import Components.Customer;
 import DB.BasicTable;
 import DB.DatabaseConnection;
 
 public class CustomerTable extends BasicTable<String,Object> {
 	
-	private String CustomerID = "customer_id";
+	private String customerID = "customer_id";
 	private String fullName = "full_name";
 	private String phoneNumber = "phone_number";
 	private String address = "address";
@@ -31,6 +33,19 @@ public class CustomerTable extends BasicTable<String,Object> {
     	Customer c;
 		ResultSet rs =this.findBy(this.fullName, fullName);
 		c = mapResultSetToEntity(rs);
+		return c;
+    }
+    
+    public Customer findCustomerByID(Integer customerID) throws Exception{
+    	Customer c;
+		ResultSet rs =this.findBy(this.customerID, customerID);
+		if (rs.next()) {
+	        // If a row is found, map the result set to a Country entity
+	        c = mapResultSetToEntity(rs);
+	    } else {
+	        // Handle the case where no country is found
+	        throw new Exception("Customer with ID " + customerID + " does not exist.");
+	    }
 		return c;
     }
 
@@ -57,11 +72,11 @@ public class CustomerTable extends BasicTable<String,Object> {
     public void printAllCustomers() throws Exception {
         ResultSet rs = this.findAll();
         while (rs.next()) {
-            System.out.println(rs.getInt(this.CustomerID) + "- " + rs.getString(this.fullName) + "- " + rs.getString(this.phoneNumber));
+            System.out.println(rs.getInt(this.customerID) + "- " + rs.getString(this.fullName) + "- " + rs.getString(this.phoneNumber));
         }
     }
 
     public int deleteCustomer(int id) throws Exception {
-        return this.delete(this.CustomerID, id);
+        return this.delete(this.customerID, id);
     }
 }

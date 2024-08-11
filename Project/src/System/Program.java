@@ -150,6 +150,8 @@ public class Program {
 			return;
 		}
 		customer = getCustomerDetailsMenu(sc);
+		if(customer == null)
+			return;
 		if(product instanceof ProductSoldThroughWebsite) {
 			type = getShipTypeMenu(sc);
 			sc.nextLine();//CLEAN BUFFER
@@ -297,29 +299,48 @@ public class Program {
         }
     }
 
-	//TODO: new customer
 	public static Customer getCustomerDetailsMenu( Scanner sc) {
-		Customer c;
-		String name,mobile,address;
-		Integer countryID;
+		String opt;
+		System.out.println("Are you a new customer? Y/N");
+		opt = sc.nextLine();
+		int id;
 		try {
-			System.out.println("Enter Customer name");
-			name= sc.nextLine();
-			System.out.println("Enter phone number");
-			mobile = sc.nextLine();
-			System.out.println("------------------");
 			Connection conn = DatabaseConnection.getConnection();
-			CountryTable ct = new CountryTable(conn);
-			ct.printAllCountries();
-			System.out.println("Type Country ID");
-			countryID = sc.nextInt();
-			sc.nextLine();//clean Buffer
-			System.out.println("Enter address");
-			address = sc.nextLine();
-			c = new Customer(name,mobile,address,countryID);
-			CustomerTable customerTable = new CustomerTable(conn);
-			customerTable.createCustomer(c);
-			return c;
+			if(opt.equals("N")) {
+				CustomerTable customerTable = new CustomerTable(conn);
+				System.out.println("Enter customer id");
+				id = sc.nextInt();
+				sc.nextLine();//clean buffer
+				Customer c = customerTable.findCustomerByID(id);
+				FormatsUtils.successMsg("Welcome back " + c.getCustomerName() + "!");
+				return c;
+			}
+			else if(opt.equals("Y"))
+			{
+				CountryTable ct = new CountryTable(conn);
+				Customer c;
+				String name,mobile,address;
+				Integer countryID;
+				System.out.println("Enter Customer name");
+				name= sc.nextLine();
+				System.out.println("Enter phone number");
+				mobile = sc.nextLine();
+				System.out.println("------------------");
+				ct.printAllCountries();
+				System.out.println("Type Country ID");
+				countryID = sc.nextInt();
+				sc.nextLine();//clean Buffer
+				System.out.println("Enter address");
+				address = sc.nextLine();
+				c = new Customer(name,mobile,address,countryID);
+				CustomerTable customerTable = new CustomerTable(conn);
+				customerTable.createCustomer(c);
+				return c;
+			}
+			else {
+				FormatsUtils.failureMsg("wrong value\n");
+				return null;
+			}
 		}catch(Exception e) {
 			FormatsUtils.failureMsg(e.getMessage() + "\n");
 			return null;
