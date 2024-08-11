@@ -10,17 +10,22 @@ public class DatabaseConnection {
     private static String URL;
     private static String USER;
     private static String PASSWORD;
+    private static Connection conn;
 
-
+    //Singleton for Connection
     public static Connection getConnection() throws SQLException , Exception {
-		InputStream input;
-		input = DatabaseConnection.class.getResourceAsStream("/DB/dbconfig.properties");
-        Properties prop = new Properties();
-        prop.load(input);
-        URL = prop.getProperty("db.url");
-        USER = prop.getProperty("db.user");
-        PASSWORD = prop.getProperty("db.password");
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+    	if(conn == null) {
+			InputStream input;
+			input = DatabaseConnection.class.getResourceAsStream("/DB/dbconfig.properties");
+	        Properties prop = new Properties();
+	        prop.load(input);
+	        URL = prop.getProperty("db.url");
+	        USER = prop.getProperty("db.user");
+	        PASSWORD = prop.getProperty("db.password");
+	        conn = DriverManager.getConnection(URL, USER, PASSWORD);
+	        return conn;
+    	}
+    	return conn;
     }
 
     public static void closeConnection(Connection connection) {

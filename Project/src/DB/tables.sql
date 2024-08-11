@@ -45,6 +45,3 @@ select * from countries
 
 
 
-
-
-

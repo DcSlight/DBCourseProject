@@ -67,9 +67,6 @@ public class test {
 		Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
-            Customer c = new Customer("idan","try!");
-            CustomerTable ct = new CustomerTable(conn);
-            ct.createCustomer(c);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {

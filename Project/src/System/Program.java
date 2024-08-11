@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Components.Country;
 import Components.Customer;
 import DB.DatabaseConnection;
+import DB.Entities.CountryTable;
+import DB.Entities.CustomerTable;
 import Exception.StockException;
 import Products.Product;
 import Products.ProductFactory;
@@ -294,15 +297,33 @@ public class Program {
         }
     }
 
-	public static Customer getCustomerDetailsMenu(Scanner sc) {
+	//TODO: new customer
+	public static Customer getCustomerDetailsMenu( Scanner sc) {
 		Customer c;
-		String name,mobile;
-		System.out.println("Enter Customer name");
-		name= sc.nextLine();
-		System.out.println("Enter phone number");
-		mobile = sc.nextLine();
-		c = new Customer(name,mobile);
-		return c;
+		String name,mobile,address;
+		Integer countryID;
+		try {
+			System.out.println("Enter Customer name");
+			name= sc.nextLine();
+			System.out.println("Enter phone number");
+			mobile = sc.nextLine();
+			System.out.println("------------------");
+			Connection conn = DatabaseConnection.getConnection();
+			CountryTable ct = new CountryTable(conn);
+			ct.printAllCountries();
+			System.out.println("Type Country ID");
+			countryID = sc.nextInt();
+			sc.nextLine();//clean Buffer
+			System.out.println("Enter address");
+			address = sc.nextLine();
+			c = new Customer(name,mobile,address,countryID);
+			CustomerTable customerTable = new CustomerTable(conn);
+			customerTable.createCustomer(c);
+			return c;
+		}catch(Exception e) {
+			FormatsUtils.failureMsg(e.getMessage() + "\n");
+			return null;
+		}
 	}
 	
 	/**

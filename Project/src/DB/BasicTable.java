@@ -75,7 +75,7 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	}
 
 	@Override
-	public ResultSet findBy(String column, String value) throws Exception {
+	public ResultSet findBy(String column, V value) throws Exception {
 	    String sql = "SELECT * FROM " + this.tableName + " WHERE " + column + " = ?";
 	    PreparedStatement stmt = conn.prepareStatement(sql);
 	    stmt.setObject(1, value);

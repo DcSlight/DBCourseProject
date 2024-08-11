@@ -6,11 +6,21 @@ public class Customer{
 	private String customerName;
 	private String mobile;
 	private String address;
-	private Country country;
+	private int countryID;
 	
-	public Customer(String customerName, String mobile) {
+	public Customer(String customerName, String mobile, String address, int countryID) {
 		this.customerName = customerName;
 		this.mobile = mobile;
+		this.address = address;
+		this.countryID = countryID;
+	}
+	
+	public String getAddress() {
+		return this.address;
+	}
+	
+	public Integer getCountryID() {
+		return this.countryID;
 	}
 
 	public String getCustomerName() {
@@ -48,6 +58,7 @@ public class Customer{
 	}
 
 	@Override
+	//TODO: fix the print
 	public String toString() {
 		return "Customer Name: " + customerName + "\tmobile: " + mobile;
 	}

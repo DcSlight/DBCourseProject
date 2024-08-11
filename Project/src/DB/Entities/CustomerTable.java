@@ -7,19 +7,23 @@ import java.util.HashMap;
 import java.util.Map;
 import Components.Customer;
 import DB.BasicTable;
+import DB.DatabaseConnection;
 
 public class CustomerTable extends BasicTable<String,Object> {
 	
 	private String CustomerID = "customer_id";
 	private String fullName = "full_name";
 	private String phoneNumber = "phone_number";
+	private String address = "address";
+	private String countryID = "country_id";
 
     public CustomerTable(Connection conn) {
         super(conn, "Customer");
     }
 
     protected Customer mapResultSetToEntity(ResultSet rs) throws SQLException {
-        Customer customer = new Customer(rs.getString(fullName),rs.getString(phoneNumber));
+        Customer customer = new Customer(rs.getString(fullName),rs.getString(phoneNumber)
+        		,rs.getString(address), rs.getInt(countryID));
         return customer;
     }
     
@@ -35,7 +39,10 @@ public class CustomerTable extends BasicTable<String,Object> {
         Map<String, Object> entityMap = new HashMap<>();
         entityMap.put(fullName, customer.getCustomerName());
         entityMap.put(phoneNumber, customer.getMobile());
-
+        entityMap.put(this.address, customer.getAddress());
+        CountryTable ct = new CountryTable(DatabaseConnection.getConnection());
+        ct.findCountryByID(customer.getCountryID());// if not found throw an error
+        entityMap.put(this.countryID, customer.getCountryID());
         // Call the generic create method
         this.create(entityMap);
     }

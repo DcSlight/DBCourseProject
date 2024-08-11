@@ -28,10 +28,16 @@ public class CountryTable extends BasicTable<String,Object> {
     	return country;
     }
     
-    public Country findCountryByName(String countryName) throws Exception{
+    public Country findCountryByID(Integer countryID) throws Exception{
     	Country c;
-		ResultSet rs =this.findBy(this.country, countryName);
-		c = mapResultSetToEntity(rs);
+		ResultSet rs =this.findBy(this.countryID, countryID);
+		if (rs.next()) {
+	        // If a row is found, map the result set to a Country entity
+	        c = mapResultSetToEntity(rs);
+	    } else {
+	        // Handle the case where no country is found
+	        throw new Exception("Country with ID " + countryID + " does not exist.");
+	    }
 		return c;
     }
 
@@ -45,6 +51,14 @@ public class CountryTable extends BasicTable<String,Object> {
 
         // Call the generic create method
         this.create(entityMap);
+    }
+    
+    public void printAllCountries() throws Exception {
+    	ResultSet rs = this.findAll();
+    	while(rs.next()) {
+    		Country c =mapResultSetToEntity(rs);
+    		System.out.println(c.prettyStr());
+    	}
     }
 
     public void updateCountryByName(Country country) throws Exception {

@@ -1,15 +1,14 @@
 --Customer Data--
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Yossi', '050-6007070', '123 Main St, Tel Aviv', 1);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Amit', '054-1234567', '456 Elm St, New York', 2);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Lior', '052-7654321', '789 Oak St, Berlin', 3);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Dina', '053-9876543', '101 Pine St, Paris', 4);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Noa', '050-1122334', '202 Maple St, London', 5);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Tal', '054-5566778', '303 Birch St, Toronto', 6);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Ron', '052-8899000', '404 Cedar St, Tokyo', 7);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Maya', '053-6677889', '505 Palm St, Sydney', 8);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Eli', '050-4455667', '606 Willow St, Beijing', 9);
-INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Sara', '054-9988776', '707 Spruce St, Mumbai', 10);
-
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Yossi', '+972-50-6007070', '123 Main St, Tel Aviv', 1);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Amit', '+1-212-5551234', '456 Elm St, New York', 2);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Lior', '+49-30-1234567', '789 Oak St, Berlin', 3);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Dina', '+33-1-23456789', '101 Pine St, Paris', 4);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Noa', '+44-20-79461234', '202 Maple St, London', 5);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Tal', '+1-416-5556789', '303 Birch St, Toronto', 6);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Ron', '+81-3-12345678', '404 Cedar St, Tokyo', 7);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Maya', '+61-2-98765432', '505 Palm St, Sydney', 8);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Eli', '+86-10-12345678', '606 Willow St, Beijing', 9);
+INSERT INTO Customer(full_name, phone_number, address, country_id) VALUES ('Sara', '+91-22-12345678', '707 Spruce St, Mumbai', 10);
 
 --Contact Data--
 INSERT INTO Contact(full_name, whats_app) VALUES ('John Smith', '050-6007070');

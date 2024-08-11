@@ -1,14 +1,14 @@
 package Components;
 
 public class Country {
-	private int id;
+	private Integer id;
 	private String country;
 	private double vatRate;
 	private String currency_type;
 	private double currency_change;
 	
 	
-	public Country(int id, String country, double vatRate, String currency_type, double currency_change) {
+	public Country(Integer id, String country, double vatRate, String currency_type, double currency_change) {
 		this.id = id;
 		this.country = country;
 		this.vatRate = vatRate;
@@ -50,6 +50,10 @@ public class Country {
 	
 	public void setCurrency_change(double currency_change) {
 		this.currency_change = currency_change;
+	}
+	
+	public String prettyStr() {
+		return "id: " + this.id + "	 Country: " + this.country;
 	}
 
 	@Override

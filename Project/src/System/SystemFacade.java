@@ -273,9 +273,9 @@ public class SystemFacade {
 	}
 	
 	private void initProductsAndOrders() {
-		Customer c1 = new Customer("Avi","0506007070");
-		Customer c2 = new Customer("Yoram","0526038971");
-		Customer c3 = new Customer("Shlomi","0526238771");
+		Customer c1 = new Customer("Avi","0506007070", "Jerusalem" , 1);
+		Customer c2 = new Customer("Yoram","0526038971", "Tel Aviv" , 1);
+		Customer c3 = new Customer("Shlomi","0526238771" , "Netanya" , 1);
 		Product p1 = new ProductSoldThroughWebsite("AAB12", "Iphone 15 protector", 7.5,87.58 , 400, 0.25);
 		Product p2 = new ProductSoldThroughWebsite("199BA", "TV", 1200,2750 , 10, 13.6);
 		Product p3 = new ProductSoldThroughWebsite("78FHC", "JBL", 210.5,453.2 , 62, 1.23);
