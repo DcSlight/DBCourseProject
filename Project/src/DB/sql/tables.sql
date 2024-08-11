@@ -45,6 +45,8 @@ CREATE TABLE countries (
 
 select * from countries
 
+
+--Orders--
 CREATE TABLE Orders (
     order_id VARCHAR(255) UNIQUE NOT NULL,
     amount INT NOT NULL,
@@ -54,9 +56,5 @@ CREATE TABLE Orders (
 	FOREIGN KEY (product_serial) REFERENCES Product(serial) ON DELETE RESTRICT ,
 	FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT
 )
-
-
-select * from orders
-
 
 

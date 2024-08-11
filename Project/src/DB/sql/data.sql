@@ -95,5 +95,38 @@ INSERT INTO countries (country, vat_rate, currency_type, currency_change) VALUES
 INSERT INTO countries (country, vat_rate, currency_type, currency_change) VALUES ('Thailand', 7.00, 'THB', 33.00);
 
 
+--Orders--
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD035', 3, 'AAB12', 1);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD036', 2, '199BA', 2);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD037', 4, '78FHC', 3);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD038', 10, 'AHDHB2', 4);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD039', 1, 'AFCHP7', 5);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD040', 7, 'PDKSU2', 6);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD041', 20, 'P3MCJU', 7);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD042', 5, 'MXJQXT', 8);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD043', 15, 'MPXL2K', 9);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD044', 8, 'AAB12', 10);
+
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD045', 6, '199BA', 1);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD046', 3, '78FHC', 2);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD047', 12, 'AHDHB2', 3);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD048', 2, 'AFCHP7', 4);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD049', 9, 'PDKSU2', 5);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD050', 18, 'P3MCJU', 6);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD051', 11, 'MXJQXT', 7);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD052', 22, 'MPXL2K', 8);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD053', 7, 'AAB12', 9);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD054', 14, '199BA', 10);
+
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD055', 9, '78FHC', 1);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD056', 5, 'AHDHB2', 2);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD057', 13, 'AFCHP7', 3);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD058', 4, 'PDKSU2', 4);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD059', 19, 'P3MCJU', 5);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD060', 6, 'MXJQXT', 6);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD061', 25, 'MPXL2K', 7);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD062', 2, 'AAB12', 8);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD063', 8, '199BA', 9);
+INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD064', 3, '78FHC', 10);
 
 
