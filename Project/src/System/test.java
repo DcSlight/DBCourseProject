@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import Components.Contact;
+import Components.Customer;
 import Components.Contact;
 import DB.Entities.*;
 import Products.Product;
@@ -66,9 +67,9 @@ public class test {
 		Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
-            Product p1 = new ProductSoldToWholesalers("AAB12", "TV", 7.5,87.58 , 400, 0.25);
-            ProductTable pt = new ProductTable(conn);
-            pt.updateProductBySerial(p1);
+            Customer c = new Customer("idan","try!");
+            CustomerTable ct = new CustomerTable(conn);
+            ct.createCustomer(c);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {

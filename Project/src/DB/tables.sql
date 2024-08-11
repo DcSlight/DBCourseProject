@@ -1,11 +1,15 @@
+--Customer--
 CREATE TABLE Customer (
     customer_id SERIAL PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(15) NOT NULL
+    phone_number VARCHAR(15) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    country_id INT REFERENCES countries(country_id) ON DELETE RESTRICT
 );
 
 select * from customer
 
+--Contact--
 CREATE TABLE Contact (
     contact_id SERIAL PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
@@ -14,6 +18,7 @@ CREATE TABLE Contact (
 
 select * from contact
 
+--Product--
 CREATE TYPE product_type AS ENUM ('eProductWebsite', 'eProductStore', 'eProductWholesalers');
 
 CREATE TABLE Product (
@@ -28,8 +33,17 @@ CREATE TABLE Product (
 
 select * from Product
 
-INSERT INTO Product (selling_price, serial, weight, type, stock, product_name, cost_price) 
-VALUES (87.58, 'AAB12', 0.25, 'eProductWebsite', 400, 'Iphone 15 protector', 7.5);
+--Countries--
+CREATE TABLE countries (
+    country_id SERIAL PRIMARY KEY,
+    country VARCHAR(255) NOT NULL,
+    vat_rate DECIMAL(5, 2) NOT NULL, 
+    currency_type VARCHAR(3) NOT NULL, 
+    currency_change DECIMAL(10, 2) NOT NULL 
+);
+select * from countries
+
+
 
 
 

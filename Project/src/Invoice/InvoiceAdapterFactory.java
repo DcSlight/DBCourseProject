@@ -20,14 +20,14 @@ public class InvoiceAdapterFactory {
 		}
 		
 		switch(type) {
-		case eAccountantInvoice:
-			return new AccountantInvoiceAdapter(new AccountantInvoice(customer,product.getProductName(),product.getSellingPrice(),product.getCostPrice(),amount,currency));
-		case eCustomerInvoice:
-			return new CustomerInvoiceAdapter(new CustomerInvoice(customer,product.getProductName(),product.getSellingPrice(),amount,currency));
-		case eNone: //sold in Website
-			return null;
-		default:
-			throw new IllegalArgumentException();
+			case eAccountantInvoice:
+				return new AccountantInvoiceAdapter(new AccountantInvoice(customer,product.getProductName(),product.getSellingPrice(),product.getCostPrice(),amount,currency));
+			case eCustomerInvoice:
+				return new CustomerInvoiceAdapter(new CustomerInvoice(customer,product.getProductName(),product.getSellingPrice(),amount,currency));
+			case eNone: //sold in Website
+				return null;
+			default:
+				throw new IllegalArgumentException();
 		}
 	}
 }

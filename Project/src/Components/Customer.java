@@ -5,6 +5,8 @@ import java.util.Objects;
 public class Customer{
 	private String customerName;
 	private String mobile;
+	private String address;
+	private Country country;
 	
 	public Customer(String customerName, String mobile) {
 		this.customerName = customerName;
