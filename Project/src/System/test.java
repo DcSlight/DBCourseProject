@@ -12,6 +12,10 @@ import Order.Order;
 import Products.Product;
 import Products.ProductSoldThroughWebsite;
 import Products.ProductSoldToWholesalers;
+import Shipping.CompanyFactory;
+import Shipping.FedEx;
+import Shipping.ShippingCompany;
+import Shipping.ShippingFactory;
 import DB.DatabaseConnection;
 
 public class test {
@@ -68,11 +72,10 @@ public class test {
 		Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
-            OrderTable od = new OrderTable(conn);
-            Order o =od.findOrderBySerial("ORD035");
-            if(o !=null)
-            	System.out.println(o.toString());
-            
+            ShippingContactTable t = new ShippingContactTable(conn);
+            ShippingCompany f = CompanyFactory.createCompany(1, "FedEx");
+            t.findAllContactOfCompany(f);
+            System.out.println(f.toString());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {

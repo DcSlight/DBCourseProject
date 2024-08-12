@@ -1,45 +1,45 @@
 package Shipping;
 
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import Components.Contact;
 import Interfaces.IObserver;
 
 public abstract class ShippingCompany implements IObserver{
-	protected int id;
-	private static int counter=0;
-	protected Contact contact;
-	protected int importTax;
+	protected int companyId;
+	protected Set<Contact> contactList;
 	
-	public ShippingCompany(Contact contact,int importTax) {
-		this.contact=contact;
-		this.importTax=importTax;
-		counter++;
-		this.id=counter;
+	public ShippingCompany(int companyId) {
+		this.companyId=companyId;
+		this.contactList = new HashSet<>();
 	}	
+	
+	public int getCompanyID() {
+		return this.companyId;
+	}
 	
 	public abstract String getName();
 	
-	public Contact getContact() {
-		return contact;
+	public Set<Contact> getContactList() {
+		return contactList;
 	}
 
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public void addContact(Contact contact) {
+		this.contactList.add(contact);
+		//TODO: ADD TO DB
 	}
-
-	public int getImportTax() {
-		return importTax;
-	}
-
-	public void setImportTax(int importTax) {
-		this.importTax = importTax;
+	
+	public void deleteContact(Contact contact) {
+		this.contactList.remove(contact);
+		//TODO: REMOVE FROM DB
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(companyId);
 	}
 
 	@Override
@@ -51,12 +51,13 @@ public abstract class ShippingCompany implements IObserver{
 		if (getClass() != obj.getClass())
 			return false;
 		ShippingCompany other = (ShippingCompany) obj;
-		return contact.equals(other.contact) && importTax == other.importTax;
+		return companyId == other.companyId;
 	}
 
 	@Override
 	public String toString() {
-		return "Shipping Company: " + getName() + "\n" + contact + "\nImport tax: " + importTax;
+		//TODO: modify
+		return "Shipping Company: " + getName() + "\n" + contactList.toString() ;
 	}
 	
 }

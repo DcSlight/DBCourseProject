@@ -129,4 +129,36 @@ INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD0
 INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD063', 8, '199BA', 9);
 INSERT INTO Orders (order_id, amount, product_serial, customer_id) VALUES ('ORD064', 3, '78FHC', 10);
 
+-- Shipping Company --
+INSERT INTO Shipping_Company (name) VALUES ('FedEx');
+INSERT INTO Shipping_Company (name) VALUES ('DHL');
+
+-- shipping_company_contacts --
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 3);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (2, 3);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 4);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (2, 4);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 5);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (2, 5);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 6);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (2, 7);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 8);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (2, 9);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 10);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (2, 11);
+INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 12);
+
+
+SELECT 
+    Contact.full_name,
+    Contact.whats_app,
+    Shipping_Company.name AS company_name
+FROM 
+    shipping_company_contacts
+INNER JOIN 
+    Contact ON shipping_company_contacts.contact_id = Contact.contact_id
+INNER JOIN 
+    Shipping_Company ON shipping_company_contacts.company_id = Shipping_Company.company_id
+WHERE  Shipping_Company.company_id=1;
+
 

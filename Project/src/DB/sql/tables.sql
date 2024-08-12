@@ -26,8 +26,8 @@ CREATE TABLE Product (
     serial VARCHAR(255) PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
     type product_type NOT NULL,
-    cost_price DECIMAL(10, 2) NOT NULL,
-    selling_price DECIMAL(10, 2) NOT NULL,
+    cost_price DECIMAL(10, 2) NOT NULL CHECK (cost_price > 0),
+    selling_price DECIMAL(10, 2) NOT NULL CHECK (selling_price > 0),
     stock INT NOT NULL,
     weight DECIMAL(10, 2) NOT NULL
 );
@@ -62,12 +62,29 @@ select * from orders
 
 CREATE TABLE Shipping_Company (
     company_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    feeExpress DECIMAL(5, 2) CHECK (feeExpress >= 0 AND feeExpress <= 100),
-    feeStandard DECIMAL(5, 2) CHECK (feeStandard >= 0 AND feeStandard <= 100)
+    name VARCHAR(255) NOT NULL
 );
 
 select * from Shipping_Company
+
+CREATE TABLE shipping_company_contacts (
+    company_id INT NOT NULL,
+    contact_id INT NOT NULL,
+    PRIMARY KEY (company_id, contact_id),
+    FOREIGN KEY (company_id) REFERENCES Shipping_Company(company_id),
+    FOREIGN KEY (contact_id) REFERENCES contact(contact_id)
+);
+
+
+
+
+
+
+
+
+
+
+
 
 
 

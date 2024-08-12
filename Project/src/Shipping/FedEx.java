@@ -8,10 +8,11 @@ public class FedEx extends ShippingCompany{
 	private final int FEE_EXPRESS = 50;
 	private final int FEE_STANDARD = 10;
 	
-	public FedEx(Contact contact,int importTax) {
-		super(contact,importTax);
+	public FedEx(int companyId) {
+		super(companyId);
 	}
 	
+	//TODO: fix
 	public double calculateExpressShippingFee(double weight) {
     	return (weight / PRODUCT_WEIGHT)*FEE_EXPRESS + importTax;
     }
