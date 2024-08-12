@@ -1,6 +1,7 @@
 package DB.Entities;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -11,7 +12,9 @@ import Components.Customer;
 import DB.BasicTable;
 import Order.Order;
 import Products.Product;
+import Products.ProductFactory;
 import System.SystemFacade;
+import eNums.eProduct;
 
 public class OrderTable extends BasicTable<String,Object> {
 	
@@ -26,18 +29,28 @@ public class OrderTable extends BasicTable<String,Object> {
     }
 
     protected Order mapResultSetToEntity(ResultSet rs) throws SQLException {
-    	//Product product, Customer customer,int amount,String serial
-    	SystemFacade systemFacade = SystemFacade.getInstance(); //singleton
-    	Order order = new Order(rs.getString(orderID),rs.getInt(amount),
-    			rs.getDouble(profit),rs.getString(productSerial),rs.getInt(customerId));
-        return order;
+    	  eProduct pType = eProduct.valueOf(rs.getString("type"));
+          Product product = ProductFactory.createProduct(pType, rs.getString(this.productSerial),
+          		rs.getString("product_name"), rs.getDouble("cost_price"),
+          		rs.getDouble("selling_price"),rs.getInt("stock"), rs.getDouble("weight"));
+          Customer customer = new Customer(rs.getString("full_name"),rs.getString("phone_number"),
+        		  rs.getString("address"),rs.getInt("country_id"));
+          Order order = new Order(product,customer,rs.getInt(this.amount),rs.getString(this.orderID),
+        		  rs.getDouble(this.profit));
+          return order;
     }
     
-    public Contact findContactByFullName(String fullName) throws Exception{
-    	Contact c = null;
-		ResultSet rs =this.findBy(this.fullName, fullName);
-		c = mapResultSetToEntity(rs);
-		return c;
+    public Order findOrderBySerial(String serialOrder) throws Exception{
+    	 String sql = "SELECT * FROM orders\r\n"
+     			+ "INNER JOIN product ON product.serial = orders.product_serial\r\n"
+     			+ "INNER JOIN customer ON customer.customer_id = orders.customer_id\r\n"
+     			+ "WHERE order_id = ?";
+    	 PreparedStatement stmt = conn.prepareStatement(sql);
+         stmt.setObject(1, serialOrder);
+         ResultSet rs = stmt.executeQuery(); // Return the ResultSet containing all rows
+         while(rs.next())
+        	 return mapResultSetToEntity(rs);
+         return null;
     }
 
     public void createContact(Contact contact) throws Exception {

@@ -20,11 +20,11 @@ public class Order{
 	private Customer customer;
 	private Set<IInvoice> allInvoice;
 	
-	public Order(Product product, Customer customer,int amount,String serial) {
+	public Order(Product product, Customer customer,int amount,String serial,double profit) {
 		this.product = product;
 		this.customer = customer;
 		this.amount = amount;
-		this.profit  = (product.getSellingPrice() - product.getCostPrice()) * amount;
+		this.profit  = profit;
 		this.allInvoice = new HashSet<IInvoice>();
 		this.serial = serial;
 		initInvoice();	

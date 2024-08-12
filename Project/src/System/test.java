@@ -8,6 +8,7 @@ import Components.Contact;
 import Components.Customer;
 import Components.Contact;
 import DB.Entities.*;
+import Order.Order;
 import Products.Product;
 import Products.ProductSoldThroughWebsite;
 import Products.ProductSoldToWholesalers;
@@ -67,6 +68,11 @@ public class test {
 		Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
+            OrderTable od = new OrderTable(conn);
+            Order o =od.findOrderBySerial("ORD035");
+            if(o !=null)
+            	System.out.println(o.toString());
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
