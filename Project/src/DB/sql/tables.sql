@@ -57,4 +57,17 @@ CREATE TABLE Orders (
 	FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT
 )
 
+select * from orders
+
+
+CREATE TABLE Shipping_Company (
+    company_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    feeExpress DECIMAL(5, 2) CHECK (feeExpress >= 0 AND feeExpress <= 100),
+    feeStandard DECIMAL(5, 2) CHECK (feeStandard >= 0 AND feeStandard <= 100)
+);
+
+select * from Shipping_Company
+
+
 
