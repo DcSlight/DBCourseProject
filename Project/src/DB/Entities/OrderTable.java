@@ -7,21 +7,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Components.Contact;
+import Components.Customer;
 import DB.BasicTable;
+import Order.Order;
+import Products.Product;
+import System.SystemFacade;
 
 public class OrderTable extends BasicTable<String,Object> {
 	
-	private String ContactID = "contact_id";
-	private String fullName = "full_name";
-	private String whatsApp = "whats_app";
+	private String orderID = "order_id";
+	private String amount = "amount";
+	private String productSerial = "product_serial";
+	private String customerId = "customer_id";
+	private String profit = "profit";
 
     public OrderTable(Connection conn) {
         super(conn, "Contact");
     }
 
-    protected Contact mapResultSetToEntity(ResultSet rs) throws SQLException {
-    	Contact contact = new Contact(rs.getString(fullName),rs.getString(this.whatsApp));
-        return contact;
+    protected Order mapResultSetToEntity(ResultSet rs) throws SQLException {
+    	//Product product, Customer customer,int amount,String serial
+    	SystemFacade systemFacade = SystemFacade.getInstance(); //singleton
+    	Order order = new Order(rs.getString(orderID),rs.getInt(amount),
+    			rs.getDouble(profit),rs.getString(productSerial),rs.getInt(customerId));
+        return order;
     }
     
     public Contact findContactByFullName(String fullName) throws Exception{
