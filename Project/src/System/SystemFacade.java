@@ -114,6 +114,7 @@ public class SystemFacade {
 	}
 
 	
+	//TODO: need DB
 	public void makeOrder(Product product,Customer customer, int amount,eShipType type,String destCountry,String serial) throws StockException {
 		Order order;
 		if(product instanceof ProductSoldThroughWebsite) {
@@ -254,6 +255,7 @@ public class SystemFacade {
 		}
 	}
 	
+	//TODO: DELETE
 	private void initCompanies() {
 		Contact contactDHL = new Contact("Yossi-DHL","0522801897");
 		ShippingCompany dhl = new DHL(contactDHL,IMPORT_TAX);

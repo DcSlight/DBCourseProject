@@ -19,8 +19,8 @@ public class DHLStandardCommand implements ICommand {
 	}
 
     @Override
-    public IShippingReceiver execute() {
-        double price = dhl.calculateStandardShippingFee(sellingPrice);
+    public IShippingReceiver execute(double importTax) {
+        double price = dhl.calculateStandardShippingFee(sellingPrice,importTax);
         IShippingReceiver receiver = new DHLReceiver(price,dhl);
         return receiver;
     }

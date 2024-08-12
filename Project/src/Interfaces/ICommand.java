@@ -3,6 +3,6 @@ package Interfaces;
 import Products.Product;
 
 public interface ICommand {
-	IShippingReceiver execute();
+	IShippingReceiver execute(double importTax);
 	void setNewProduct(Product product);
 }

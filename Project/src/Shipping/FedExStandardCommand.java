@@ -16,12 +16,11 @@ public class FedExStandardCommand implements ICommand {
     @Override
 	public void setNewProduct(Product product) {
     	this.weight = product.getWeight();
-		
 	}
 
     @Override
-    public IShippingReceiver execute() {
-        double price = fedEx.calculateStandardShippingFee(weight);
+    public IShippingReceiver execute(double importTax) {
+        double price = fedEx.calculateStandardShippingFee(weight,importTax);
         IShippingReceiver receiver = new FedExReceiver(price,fedEx);
         return receiver;
     }

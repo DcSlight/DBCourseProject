@@ -1,6 +1,4 @@
 package Shipping;
-
-import Components.Contact;
 import Observer.ObserverManagment;
 
 public class DHL extends ShippingCompany{
@@ -11,13 +9,13 @@ public class DHL extends ShippingCompany{
 		super(companyId);
 	}
 	
-	//TODO: fix
-	public double calculateExpressShippingFee() {
+	public double calculateExpressShippingFee(double importTax) {
     	return MAX_SHIP_PRICE + importTax;
     }
 
 
-    public double calculateStandardShippingFee(double sellingPrice) {
+    public double calculateStandardShippingFee(double sellingPrice,double importTax) {
+    	//TODO: add import tax calc
     	double shippingFee=PRECENT_FEE_PRODUCT * sellingPrice;
 		if(shippingFee > MAX_SHIP_PRICE)
 			shippingFee = MAX_SHIP_PRICE;

@@ -12,12 +12,12 @@ public class FedEx extends ShippingCompany{
 		super(companyId);
 	}
 	
-	//TODO: fix
-	public double calculateExpressShippingFee(double weight) {
+	public double calculateExpressShippingFee(double weight,double importTax) {
     	return (weight / PRODUCT_WEIGHT)*FEE_EXPRESS + importTax;
     }
 	
-	public double calculateStandardShippingFee(double weight) {
+	public double calculateStandardShippingFee(double weight,double importTax) {
+		//TODO: add the import tax
     	return (weight / PRODUCT_WEIGHT)*FEE_STANDARD;
     }
 
