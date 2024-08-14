@@ -95,22 +95,38 @@ select * from orders
 CREATE TABLE order_website (
     order_id VARCHAR(255) NOT NULL,
     status_code INT NOT NULL,
-    shipping_price DOUBLE PRECISION DEFAULT 0,
-    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE casade,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
     FOREIGN KEY (status_code) REFERENCES shipping_status(status_code) ON DELETE RESTRICT
 );
 
 
+-- ship_type enum --
+CREATE TYPE ship_type AS ENUM ('eShip', 'ePlane', 'eTrak');
+
+-- Tracks --
+CREATE TABLE tracks (
+    track_id SERIAL PRIMARY KEY, -- Adding a primary key for the table
+    shippingType ship_type NOT NULL,
+    from_country_id INT NOT NULL,
+    date_departure TIMESTAMP NOT NULL,
+    to_country_id INT NOT NULL,
+    date_arrive TIMESTAMP NOT NULL,
+    shipping_status_id INT NOT NULL,
+	has_arrive BOOLEAN DEFAULT false,
+    FOREIGN KEY (from_country_id) REFERENCES countries(country_id) ON DELETE CASCADE,
+    FOREIGN KEY (to_country_id) REFERENCES countries(country_id) ON DELETE CASCADE,
+    FOREIGN KEY (shipping_status_id) REFERENCES shipping_status(status_code)
+);
 
 
+select * from order_website
+
+select * from shipping_status
+
+select * from tracks
 
 
-
-
-
-
-
-
+select * from orders where product_serial='AAB12'
 
 
 
