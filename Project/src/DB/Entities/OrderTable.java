@@ -53,31 +53,27 @@ public class OrderTable extends BasicTable<String,Object> {
          return null;
     }
 
-    public void createContact(Contact contact) throws Exception {
+    public void createOrder(Order order) throws Exception {
         // Create a map to hold column-value pairs
         Map<String, Object> entityMap = new HashMap<>();
-        entityMap.put(fullName, contact.getName());
-        entityMap.put(this.whatsApp, contact.getWhatsApp());
+        entityMap.put(this.orderID, order.getSerial());
+        entityMap.put(this.amount, order.getAmount());
+        entityMap.put(this.productSerial, order.getProduct().getSerial());
+        entityMap.put(this.customerId, order.getCustomer().getCountryID());
 
         // Call the generic create method
         this.create(entityMap);
     }
 
-    public void updateContactPhoneNumber(String whatsApp, Contact contact) throws Exception {
+    public void updateOrderById(String orderID, Order order) throws Exception {
         Map<String, Object> entityMap = new HashMap<>();
-        entityMap.put(fullName, contact.getName());
-        entityMap.put(this.whatsApp, whatsApp);
-        this.update(entityMap, fullName,contact.getName());
+        entityMap.put(this.amount, order.getAmount());
+        entityMap.put(this.productSerial, order.getProduct().getSerial());
+        entityMap.put(this.customerId, order.getCustomer().getCountryID());
+        this.update(entityMap, this.orderID,orderID);
     }
 
-    public void printAllContacts() throws Exception {
-        ResultSet rs = this.findAll();
-        while (rs.next()) {
-            System.out.println(rs.getInt(this.ContactID) + "- " + rs.getString(this.fullName) + "- " + rs.getString(this.whatsApp));
-        }
-    }
-
-    public int deleteContact(int id) throws Exception {
-        return this.delete(this.ContactID, id);
+    public int deleteContact(String orderID) throws Exception {
+        return this.delete(this.orderID, orderID);
     }
 }

@@ -148,17 +148,6 @@ INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 10);
 INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (2, 11);
 INSERT INTO shipping_company_contacts (company_id, contact_id) VALUES (1, 12);
 
-
-SELECT 
-    Contact.full_name,
-    Contact.whats_app,
-    Shipping_Company.name AS company_name
-FROM 
-    shipping_company_contacts
-INNER JOIN 
-    Contact ON shipping_company_contacts.contact_id = Contact.contact_id
-INNER JOIN 
-    Shipping_Company ON shipping_company_contacts.company_id = Shipping_Company.company_id
-WHERE  Shipping_Company.company_id=1;
+-- shipping status --
 
 

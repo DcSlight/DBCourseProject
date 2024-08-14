@@ -9,42 +9,41 @@ import eNums.eShipType;
 
 public class WebsiteOrder extends Order{
 	
-	private ShippingCompany company;
-	private eShipType type;
-	private double shippingPrice;
-	private String destCountry;
+	//private ShippingCompany company; - it is in status table
+	//private eShipType type; //TODO: REMOVE
+	private int statusCode;
+	//private double shippingPrice; will be calc in the controller
 
-	public WebsiteOrder(Product product, Customer customer, int amount,ShippingCompany company, eShipType type,double shippingPrice,String destCountry,String serial) {
-		super(product, customer, amount,serial);
-		this.company = company;
-		this.type = type;
-		this.shippingPrice = shippingPrice;
-		this.destCountry= destCountry;
+	public WebsiteOrder(Product product, Customer customer, 
+			int amount,
+			int destCountryID,String serial,int statusCode,double profit) {
+		super(product,customer,amount,serial,profit);
+		this.statusCode = statusCode;
 	}
 	
-	public String getCountry() {
-		return destCountry;
+	public int getCountryID() {
+		return this.getCustomer().getCountryID();
 	}
 	
-	public void setCountry(String destCountry) {
-		this.destCountry = destCountry;
-	}
 
 	public ShippingCompany getCompany() {
+		//TODO: need to fix
 		return company;
 	}
 
 	public void setCompany(ShippingCompany company) {
+		//TODO: need to fix
 		this.company = company;
 	}
 
-	public eShipType getType() {
-		return type;
-	}
-
-	public void setType(eShipType type) {
-		this.type = type;
-	}
+	//TODO: REMOVE
+//	public eShipType getType() {
+//		return type;
+//	}
+//
+//	public void setType(eShipType type) {
+//		this.type = type;
+//	}
 
 	public double getShippingPrice() {
 		return shippingPrice;
@@ -55,34 +54,35 @@ public class WebsiteOrder extends Order{
 	}
 	
 	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(company, destCountry, shippingPrice, type);
+		result = prime * result + Objects.hash(company, shippingPrice, statusCode);
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (!super.equals(obj)) {
+		if (!super.equals(obj))
 			return false;
-		}
-		if (!(obj instanceof WebsiteOrder)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		return true;
+		WebsiteOrder other = (WebsiteOrder) obj;
+		return Objects.equals(company, other.company)
+				&& Double.doubleToLongBits(shippingPrice) == Double.doubleToLongBits(other.shippingPrice)
+				&& statusCode == other.statusCode;
 	}
 
 	public String toString() {
+		//TODO: need to fix
 		StringBuffer st = new StringBuffer();
 		st.append(super.toString());
-		st.append("Dest Country: " + destCountry + "\n");
-		st.append(company + "\ntype: " + type.name() + "\nshipping price: " + shippingPrice );
+		//st.append("Dest Country: " + destCountry + "\n");
+		//st.append(company + "\ntype: " + type.name() + "\nshipping price: " + shippingPrice );
 		return st.toString();
 	}
 	

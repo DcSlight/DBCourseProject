@@ -52,10 +52,11 @@ CREATE TABLE Orders (
     amount INT NOT NULL,
     profit DECIMAL(10, 2) NOT NULL,
     product_serial VARCHAR(255) NOT NULL,
-	customer_id INT NOT NULL,
-	FOREIGN KEY (product_serial) REFERENCES Product(serial) ON DELETE RESTRICT ,
-	FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT
-)
+    customer_id INT NOT NULL,
+    order_datetime TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (product_serial) REFERENCES Product(serial) ON DELETE RESTRICT,
+    FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT
+);
 
 select * from orders
 
@@ -74,6 +75,34 @@ CREATE TABLE shipping_company_contacts (
     FOREIGN KEY (company_id) REFERENCES Shipping_Company(company_id),
     FOREIGN KEY (contact_id) REFERENCES contact(contact_id)
 );
+
+-- Shipping Status --
+CREATE TYPE shipping_status_enum AS ENUM ('eArrive', 'eOnTheWay');
+
+CREATE TABLE shipping_status (
+    status_code SERIAL PRIMARY KEY,
+    company_id INT NOT NULL,
+    order_id VARCHAR(255) NOT NULL,
+    status shipping_status_enum NOT NULL DEFAULT 'eOnTheWay',
+    FOREIGN KEY (company_id) REFERENCES Shipping_Company(company_id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE
+);
+
+select * from orders
+
+-- Order Website --
+
+CREATE TABLE order_website (
+    order_id VARCHAR(255) NOT NULL,
+    status_code INT NOT NULL,
+    shipping_price DOUBLE PRECISION DEFAULT 0,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE casade,
+    FOREIGN KEY (status_code) REFERENCES shipping_status(status_code) ON DELETE RESTRICT
+);
+
+
+
+
 
 
 
