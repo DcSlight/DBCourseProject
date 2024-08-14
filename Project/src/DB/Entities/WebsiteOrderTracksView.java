@@ -91,12 +91,7 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     	return tracks;
     }
     
-    public Contact findContactByFullName(String fullName) throws Exception{
-    	Contact c = null;
-		ResultSet rs =this.findBy(this.fullName, fullName);
-		c = mapResultSetToEntity(rs);
-		return c;
-    }
+    //TODO: need update to approve specific track
 
     public void createContact(Contact contact) throws Exception {
         // Create a map to hold column-value pairs
