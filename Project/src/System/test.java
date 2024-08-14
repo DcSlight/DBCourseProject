@@ -1,8 +1,11 @@
 package System;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashSet;
+import java.util.Set;
 
 import Components.Contact;
 import Components.Customer;
@@ -16,6 +19,8 @@ import Shipping.CompanyFactory;
 import Shipping.FedEx;
 import Shipping.ShippingCompany;
 import Shipping.ShippingFactory;
+import Shipping.Track;
+import eNums.eShipMethod;
 import DB.DatabaseConnection;
 
 public class test {
@@ -72,10 +77,16 @@ public class test {
 		Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
-            ShippingContactTable t = new ShippingContactTable(conn);
-            ShippingCompany f = CompanyFactory.createCompany(1, "FedEx");
-            t.findAllContactOfCompany(f);
-            System.out.println(f.toString());
+            WebsiteOrderTracksView w = new WebsiteOrderTracksView(conn);
+//            Track t1 = new Track(eShipMethod.eShip, 1, "2024-08-15 10:00:00", 2,
+//            		"2024-08-20 18:00:00");
+//            Track t2 = new Track(eShipMethod.ePlane, 2, "2024-08-21 06:00:00", 3,
+//            		"2024-08-22 12:00:00");
+//            Set<Track> t = new HashSet<>();
+//            t.add(t1);
+//            t.add(t2);
+//            w.insertOrderTransaction(1, "ORD035", t);
+            System.out.println(w.findAllTracksByOrderID("ORD035"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {

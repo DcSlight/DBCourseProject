@@ -1,3 +1,5 @@
+-- transactions --
+-- example for inserting new order --
 DO $$
 DECLARE
     generated_status_code INT;

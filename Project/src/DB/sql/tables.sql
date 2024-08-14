@@ -118,15 +118,26 @@ CREATE TABLE tracks (
     FOREIGN KEY (shipping_status_id) REFERENCES shipping_status(status_code)
 );
 
+-- VIEW FOR ORDERS --	
 
-select * from order_website
-
-select * from shipping_status
-
-select * from tracks
-
-
-select * from orders where product_serial='AAB12'
+CREATE VIEW shipping_order_tracks_view AS
+SELECT 
+    shipping_status.status_code,
+    shipping_status.company_id,
+    shipping_status.order_id,
+    order_website.status_code AS website_status_code,
+    tracks.track_id,
+    tracks.shippingType,
+    tracks.from_country_id,
+    tracks.date_departure,
+    tracks.to_country_id,
+    tracks.date_arrive
+FROM 
+    shipping_status
+JOIN 
+    order_website ON shipping_status.status_code = order_website.status_code
+JOIN 
+    tracks ON shipping_status.status_code = tracks.shipping_status_id;
 
 
 
