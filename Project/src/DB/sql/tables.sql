@@ -141,6 +141,5 @@ JOIN
 
 
 
-
-
+select * from shipping_order_tracks_view
 

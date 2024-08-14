@@ -86,7 +86,9 @@ public class test {
 //            t.add(t1);
 //            t.add(t2);
 //            w.insertOrderTransaction(1, "ORD035", t);
-            System.out.println(w.findAllTracksByOrderID("ORD035"));
+            //System.out.println(w.findAllTracksByOrderID("ORD035"));
+            //w.updateTrackToArrive(6);
+            System.out.println(w.getAverageVATRate("ORD035"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {

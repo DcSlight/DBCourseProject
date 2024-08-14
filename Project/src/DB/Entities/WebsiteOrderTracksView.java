@@ -91,24 +91,15 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     	return tracks;
     }
     
-    //TODO: need update to approve specific track
-
-    public void createContact(Contact contact) throws Exception {
-        // Create a map to hold column-value pairs
-        Map<String, Object> entityMap = new HashMap<>();
-        entityMap.put(fullName, contact.getName());
-        entityMap.put(this.whatsApp, contact.getWhatsApp());
-
-        // Call the generic create method
-        this.create(entityMap);
+    public void updateTrackToArrive(int trackID) throws SQLException {
+    	String sql = "UPDATE tracks\r\n"
+    			+ "SET has_arrive = True\r\n"
+    			+ "WHERE track_id=?;";
+    	PreparedStatement  stmt = conn.prepareStatement(sql);
+    	stmt.setObject(1, trackID);
+    	stmt.executeUpdate();
     }
-
-    public void updateContactPhoneNumber(String whatsApp, Contact contact) throws Exception {
-        Map<String, Object> entityMap = new HashMap<>();
-        entityMap.put(fullName, contact.getName());
-        entityMap.put(this.whatsApp, whatsApp);
-        this.update(entityMap, fullName,contact.getName());
-    }
+    
 
     public void printAllContacts() throws Exception {
         ResultSet rs = this.findAll();
@@ -116,6 +107,22 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
             System.out.println(rs.getInt(this.ContactID) + "- " + rs.getString(this.fullName) + "- " + rs.getString(this.whatsApp));
         }
     }
+    
+    public double getAverageVATRate(String orderID) throws Exception {
+    	String sql = "SELECT ROUND(AVG(countries.vat_rate), 2) AS average_vat_rate\r\n"
+    			+ "FROM shipping_order_tracks_view\r\n"
+    			+ "INNER JOIN countries ON shipping_order_tracks_view.to_country_id = countries.country_id\r\n"
+    			+ "WHERE shipping_order_tracks_view.order_id = ?;";
+    	PreparedStatement  stmt = conn.prepareStatement(sql);
+    	stmt.setObject(1, orderID);
+    	ResultSet rs = stmt.executeQuery();
+    	if (rs.next()) {
+	    	return rs.getDouble("average_vat_rate");
+    	}else {
+	        // Handle the case where no country is found
+	        throw new Exception("Order with ID " + orderID + " does not exist.");
+	    }
+	    }
 
     public int deleteContact(int id) throws Exception {
         return this.delete(this.ContactID, id);
