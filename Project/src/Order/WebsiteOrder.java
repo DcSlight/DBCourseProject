@@ -71,6 +71,8 @@ public class WebsiteOrder extends Order{
 				index++;
 			System.out.println(t);
 		}
+		WebsiteOrderTracksView wot = new WebsiteOrderTracksView(DatabaseConnection.getConnection());
+		wot.insertOrderTransaction(this.companyID,this.getSerial(), tracks);
 	}
 	
 

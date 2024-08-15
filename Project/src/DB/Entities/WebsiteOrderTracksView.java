@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import DB.BasicTable;
 import Shipping.Track;
@@ -29,7 +30,7 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
      * this method doesnt support prepare statement (DO in postgress doesnt support ?)
      * @throws SQLException 
      */
-    public void insertOrderTransaction(int companyID,String orderID,Set<Track> tracks) throws SQLException {
+    public void insertOrderTransaction(int companyID,String orderID,List<Track> tracks) throws SQLException {
     	String trackString =this.trackSetToStrings(tracks);
     	String sql = "DO $$\r\n"
     			+ "DECLARE\r\n"
@@ -54,7 +55,7 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     	stmt.execute(sql);
     }
     
-    private String trackSetToStrings(Set<Track> tracks) {
+    private String trackSetToStrings(List<Track> tracks) {
     	StringBuffer st = new StringBuffer("");
     	for (Track t : tracks) {
     		st.append(this.trackToInsertString(t)+",");
