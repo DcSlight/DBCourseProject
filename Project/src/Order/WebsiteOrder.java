@@ -28,10 +28,11 @@ public class WebsiteOrder extends Order{
 
 	public WebsiteOrder(Product product, Customer customer, 
 			int amount,
-			String serial,double profit,eStatus status) {
+			String serial,double profit,eStatus status ,int companyID) {
 		super(product,customer,amount,serial,profit);
 		this.tracks = new HashSet<>();
 		this.status=status;
+		this.companyID = companyID;
 	}
 	
 	/*

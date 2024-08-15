@@ -140,9 +140,3 @@ JOIN
 
 select * from order_website
 INNER JOIN shipping_status ON shipping_status.status_code = order_website.status_code
-
-select * from tracks
-
-select * from shipping_status
-
-select * from order_website

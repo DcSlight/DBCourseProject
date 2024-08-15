@@ -88,7 +88,7 @@ public class test {
             //double profit,eStatus status
             Product p1 = new ProductSoldThroughWebsite("AAB12", "Iphone 15 protector", 7.5,87.58 , 400, 0.25);
             Customer c1 = new Customer("Avi","0506007070", "Jerusalem" , 1);
-            WebsiteOrder o = new WebsiteOrder(p1,c1,4,"OBJKS",50,eStatus.eOnTheWay);
+            WebsiteOrder o = new WebsiteOrder(p1,c1,4,"ORD035",50,eStatus.eOnTheWay,1);
             o.createWebsiteOrder();
 //            Track t1 = new Track(eShipMethod.eShip, 1, "2024-08-15 10:00:00", 2,
 //            		"2024-08-20 18:00:00");
