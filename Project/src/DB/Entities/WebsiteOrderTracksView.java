@@ -5,13 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-
-import Components.Contact;
-import Components.Customer;
 import DB.BasicTable;
 import Shipping.Track;
 import eNums.eShipMethod;
@@ -91,6 +86,7 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     	return tracks;
     }
     
+    //TODO : change to automatic
     public void updateTrackToArrive(int trackID) throws SQLException {
     	String sql = "UPDATE tracks\r\n"
     			+ "SET has_arrive = True\r\n"
@@ -98,14 +94,6 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     	PreparedStatement  stmt = conn.prepareStatement(sql);
     	stmt.setObject(1, trackID);
     	stmt.executeUpdate();
-    }
-    
-
-    public void printAllContacts() throws Exception {
-        ResultSet rs = this.findAll();
-        while (rs.next()) {
-            System.out.println(rs.getInt(this.ContactID) + "- " + rs.getString(this.fullName) + "- " + rs.getString(this.whatsApp));
-        }
     }
     
     public double getAverageVATRate(String orderID) throws Exception {
@@ -122,9 +110,12 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
 	        // Handle the case where no country is found
 	        throw new Exception("Order with ID " + orderID + " does not exist.");
 	    }
-	    }
+	 }
 
-    public int deleteContact(int id) throws Exception {
-        return this.delete(this.ContactID, id);
+    public int deleteOrderWebsite(String orderID) throws Exception {
+    	 String sql = "DELETE FROM order_website WHERE order_id = ?";
+    	 PreparedStatement stmt = conn.prepareStatement(sql);
+         stmt.setObject(1, orderID);
+         return stmt.executeUpdate();
     }
 }

@@ -101,11 +101,10 @@ CREATE TABLE order_website (
 
 
 -- ship_type enum --
-CREATE TYPE ship_type AS ENUM ('eShip', 'ePlane', 'eTrak');
-
+CREATE TYPE ship_type AS ENUM ('eShip', 'ePlane', 'eTruck');
 -- Tracks --
 CREATE TABLE tracks (
-    track_id SERIAL PRIMARY KEY, -- Adding a primary key for the table
+    track_id SERIAL PRIMARY KEY, 
     shippingType ship_type NOT NULL,
     from_country_id INT NOT NULL,
     date_departure TIMESTAMP NOT NULL,
@@ -139,7 +138,11 @@ JOIN
 JOIN 
     tracks ON shipping_status.status_code = tracks.shipping_status_id;
 
+select * from order_website
+INNER JOIN shipping_status ON shipping_status.status_code = order_website.status_code
 
+select * from tracks
 
-select * from shipping_order_tracks_view
+select * from shipping_status
 
+select * from order_website

@@ -1,9 +1,12 @@
 package DB.Entities;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Components.Country;
@@ -39,6 +42,30 @@ public class CountryTable extends BasicTable<String,Object> {
 	        throw new Exception("Country with ID " + countryID + " does not exist.");
 	    }
 		return c;
+    }
+    
+    /*
+     * Randomize a route a countries exclude the country
+     */
+    public List<Integer> getRoute(int lastCountry) throws SQLException{
+    	String sql = "WITH shuffled_countries AS (\r\n"
+    			+ "    SELECT country_id\r\n"
+    			+ "    FROM countries\r\n"
+    			+ "    WHERE country_id <> ? "
+    			+ "    ORDER BY RANDOM() \r\n"
+    			+ "    LIMIT (SELECT FLOOR(RANDOM() * 5) + 1) \r\n"
+    			+ ")\r\n"
+    			+ "SELECT country_id\r\n"
+    			+ "FROM shuffled_countries";
+    	PreparedStatement stmt = this.conn.prepareStatement(sql);
+    	stmt.setObject(1, lastCountry);
+    	ResultSet rs = stmt.executeQuery();
+    	List<Integer> l = new ArrayList<>();
+    	while(rs.next()) {
+    		l.add(rs.getInt(this.countryID));
+    	}
+    	l.add(lastCountry);
+    	return l;
     }
 
     public void createCountry(Country country) throws Exception {

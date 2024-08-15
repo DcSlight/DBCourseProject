@@ -12,6 +12,7 @@ import Components.Customer;
 import Components.Contact;
 import DB.Entities.*;
 import Order.Order;
+import Order.WebsiteOrder;
 import Products.Product;
 import Products.ProductSoldThroughWebsite;
 import Products.ProductSoldToWholesalers;
@@ -21,6 +22,7 @@ import Shipping.ShippingCompany;
 import Shipping.ShippingFactory;
 import Shipping.Track;
 import eNums.eShipMethod;
+import eNums.eStatus;
 import DB.DatabaseConnection;
 
 public class test {
@@ -78,6 +80,16 @@ public class test {
         try {
             conn = DatabaseConnection.getConnection();
             WebsiteOrderTracksView w = new WebsiteOrderTracksView(conn);
+            CountryTable ct = new CountryTable(conn);
+            System.out.println(ct.getRoute(7));
+            //Product product, Customer customer, 
+			//int amount,
+			//String serial,
+            //double profit,eStatus status
+            Product p1 = new ProductSoldThroughWebsite("AAB12", "Iphone 15 protector", 7.5,87.58 , 400, 0.25);
+            Customer c1 = new Customer("Avi","0506007070", "Jerusalem" , 1);
+            WebsiteOrder o = new WebsiteOrder(p1,c1,4,"OBJKS",50,eStatus.eOnTheWay);
+            o.createWebsiteOrder();
 //            Track t1 = new Track(eShipMethod.eShip, 1, "2024-08-15 10:00:00", 2,
 //            		"2024-08-20 18:00:00");
 //            Track t2 = new Track(eShipMethod.ePlane, 2, "2024-08-21 06:00:00", 3,
@@ -88,7 +100,8 @@ public class test {
 //            w.insertOrderTransaction(1, "ORD035", t);
             //System.out.println(w.findAllTracksByOrderID("ORD035"));
             //w.updateTrackToArrive(6);
-            System.out.println(w.getAverageVATRate("ORD035"));
+//            System.out.println(w.getAverageVATRate("ORD035"));
+//            w.deleteOrderWebsite("ORD035");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {

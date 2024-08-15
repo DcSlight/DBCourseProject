@@ -1,5 +1,5 @@
 package eNums;
 
 public enum eShipMethod {
-	eShip,ePlane,eTrak
+	eShip,ePlane,eTruck
 }

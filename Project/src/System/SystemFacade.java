@@ -1,6 +1,12 @@
 package System;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -50,6 +56,13 @@ public class SystemFacade {
 		initObservers();
 		backUpSystem();
 	}
+	
+	  // Generic method to get a random value from any enum
+	  public static <T extends Enum<?>> T getRandomEnumValueFromSubset(T[] subset) {
+	        Random random = new Random();
+	        int randomIndex = random.nextInt(subset.length);
+	        return subset[randomIndex];
+	    }
 	
 	/**
 	 * Ex: 4.1
@@ -254,6 +267,44 @@ public class SystemFacade {
 			this.orderContorller = orderContorller;
 		}
 	}
+	
+	 public static List<String> generateRandomDates(int length) {
+	        // Create an ArrayList to hold the formatted dates
+	        List<String> randomDates = new ArrayList<>();
+
+	        // Create a SimpleDateFormat object with the desired format
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	        // Get the current date
+	        Calendar calendar = Calendar.getInstance();
+
+	        // Create a Random object to generate random numbers
+	        Random random = new Random();
+
+	        for (int i = 0; i < length; i++) {
+	            // Reset the calendar to today's date
+	            calendar.setTime(new Date());
+
+	            // Generate a random number of days between 0 and 30
+	            int randomDays = random.nextInt(31);
+
+	            // Generate a random number of hours, minutes, and seconds
+	            int randomHours = random.nextInt(24);
+	            int randomMinutes = random.nextInt(60);
+	            int randomSeconds = random.nextInt(60);
+
+	            // Add the random days, hours, minutes, and seconds to the current date
+	            calendar.add(Calendar.DAY_OF_MONTH, randomDays);
+	            calendar.set(Calendar.HOUR_OF_DAY, randomHours);
+	            calendar.set(Calendar.MINUTE, randomMinutes);
+	            calendar.set(Calendar.SECOND, randomSeconds);
+
+	            // Format the date and add it to the list
+	            randomDates.add(dateFormat.format(calendar.getTime()));
+	        }
+
+	        return randomDates;
+	    }
 	
 	//TODO: DELETE
 	private void initCompanies() {

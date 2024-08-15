@@ -29,4 +29,11 @@ public class ShippingCompanyTable extends BasicTable<String,Object> {
 		return company;
     }
     
+    public ShippingCompany findCompanyByID(int id) throws Exception{
+    	ShippingCompany company = null;
+		ResultSet rs =this.findBy(this.companyID, id);
+		company = mapResultSetToEntity(rs);
+		return company;
+    }
+    
 }
