@@ -83,22 +83,22 @@ CREATE TABLE shipping_status (
     status_code SERIAL PRIMARY KEY,
     company_id INT NOT NULL,
     order_id VARCHAR(255) NOT NULL,
+	shipping_fee DECIMAL(10, 2) NOT NULL,
     status shipping_status_enum NOT NULL DEFAULT 'eOnTheWay',
     FOREIGN KEY (company_id) REFERENCES Shipping_Company(company_id) ON DELETE CASCADE,
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE
 );
 
-select * from orders
-
 -- Order Website --
+CREATE TYPE eShipType AS ENUM ('eExpress', 'eStandard', 'eNone');
 
 CREATE TABLE order_website (
     order_id VARCHAR(255) NOT NULL,
     status_code INT NOT NULL,
+	ship_type eShipType NOT NULL DEFAULT 'eNone',
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
     FOREIGN KEY (status_code) REFERENCES shipping_status(status_code) ON DELETE RESTRICT
 );
-
 
 -- ship_type enum --
 CREATE TYPE ship_type AS ENUM ('eShip', 'ePlane', 'eTruck');

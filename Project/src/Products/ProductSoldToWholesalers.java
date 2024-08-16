@@ -32,7 +32,11 @@ public class ProductSoldToWholesalers extends Product{
 	public String toString() {
 		StringBuffer st = new StringBuffer();
 		st.append("Product type: " + this.getClass().getSimpleName() + "\n");
-		st.append("Total Profit: " + (float)getTotalProfit() + "$\n");
+		try {
+			st.append("Total Profit: " + (float)getTotalProfit() + "$\n");
+		} catch (Exception e) {
+			st.append("Total Profit: can not resolve \n");
+		}
 		st.append(super.toString());
 		return st.toString();
 	}

@@ -1,8 +1,13 @@
 package Products;
 
+import java.sql.SQLException;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import DB.DatabaseConnection;
+import DB.Entities.OrderTable;
+import DB.Entities.ProductTable;
 import Exception.StockException;
 import Order.Order;
 import Utils.FormatsUtils;
@@ -70,9 +75,11 @@ public abstract class Product implements Comparable<Product> {
 
 	public abstract void addOrder(Order order) throws StockException;
 
-	public String getAllOrders() {
+	public String getAllOrders() throws SQLException, Exception {
 		int num = 1;
 		StringBuffer st = new StringBuffer();
+		OrderTable ot = new OrderTable(DatabaseConnection.getConnection());
+		Set<Order> orders = ot.getAllOrdersByProdustSerial(this.serial);
 		if (orders.isEmpty())
 			return "There are no orders!";
 		for (Order o : orders) {
@@ -137,12 +144,9 @@ public abstract class Product implements Comparable<Product> {
 		this.orders = orders;
 	}
 
-	public double getTotalProfit() {
-		double sum = 0;
-		for (Order order : orders) {
-			sum += order.getProfit();
-		}
-		return sum;
+	public double getTotalProfit() throws Exception {
+		OrderTable ot = new OrderTable(DatabaseConnection.getConnection());
+		return ot.getTotalProfitBySerial(this.getSerial());
 	}
 
 	public void createMemento() {
@@ -207,7 +211,11 @@ public abstract class Product implements Comparable<Product> {
 		st.append("Product Weight: " + weight + "kg\n");
 		st.append("Current Stock: " + stock + "\n");
 		st.append(FormatsUtils.ANSI_YELLOW_UNDERLINED + "\nAll orders:\n" + FormatsUtils.ANSI_RESET);
-		st.append(getAllOrders() + "\n\n");
+		try {
+			st.append(getAllOrders() + "\n\n");
+		}catch(Exception e) {
+			st.append("Error getting Orders: "+ e.getMessage() + "\n\n");
+		}
 		return st.toString();
 	}
 

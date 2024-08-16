@@ -17,22 +17,27 @@ import Shipping.ShippingCompany;
 import Shipping.Track;
 import System.SystemFacade;
 import eNums.eShipMethod;
+import eNums.eShipType;
 import eNums.eStatus;
 
 public class WebsiteOrder extends Order{
 	private int companyID;
 	private Set<Track> tracks;
 	private eStatus status;
+	private eShipType shipType;
+	private double shippingFee;
 	
-	//private double shippingPrice; will be calc in the controller
+	//private double shippingPrice; will be calc in the controller TODO: check
 
 	public WebsiteOrder(Product product, Customer customer, 
 			int amount,
-			String serial,double profit,eStatus status ,int companyID) {
-		super(product,customer,amount,serial,profit);
+			String serial,eStatus status ,int companyID,eShipType shipType,double shippingFee) {
+		super(product,customer,amount,serial);
 		this.tracks = new HashSet<>();
 		this.status=status;
 		this.companyID = companyID;
+		this.shipType = shipType;
+		this.shippingFee = shippingFee;
 	}
 	
 	/*
@@ -49,8 +54,6 @@ public class WebsiteOrder extends Order{
         eShipMethod randomType;
         Integer fromCountry;
         List<String> dates = SystemFacade.generateRandomDates(countriesRoute.size()+1);
-		System.out.println(dates);
-		System.out.println(countriesRoute);
         int index=0;
         Track t;
         List<Track> tracks = new ArrayList<>();
@@ -70,10 +73,10 @@ public class WebsiteOrder extends Order{
 			tracks.add(t);
 			if(index < countriesRoute.size())
 				index++;
-			System.out.println(t);
 		}
 		WebsiteOrderTracksView wot = new WebsiteOrderTracksView(DatabaseConnection.getConnection());
-		wot.insertOrderTransaction(this.companyID,this.getSerial(), tracks);
+		//int companyID,String orderID,eShipType shipType,List<Track> tracks
+		wot.insertOrderTransaction(this.companyID,this.getSerial(),shipType ,tracks,shippingFee);
 	}
 	
 

@@ -58,7 +58,7 @@ public class ShippingInvoker {
 	private IShippingReceiver calculateCheapestShipping(Set<ICommand> commands) {
 		double cheapestPrice = Double.MAX_VALUE;
 		IShippingReceiver cheappestReciever = null;
-		double importTax = 1; //need to take from the DB
+		double importTax = 1; //TODO: need to take from the DB
 		for (ICommand command : commands) {
 			IShippingReceiver receiver = command.execute(importTax); // Assume execute() returns the IShippingReceiver
 			double price = receiver.getPrice();

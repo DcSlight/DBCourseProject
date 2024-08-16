@@ -11,6 +11,8 @@ import Components.Customer;
 import DB.DatabaseConnection;
 import DB.Entities.CountryTable;
 import DB.Entities.CustomerTable;
+import DB.Entities.OrderTable;
+import DB.Entities.ProductTable;
 import Exception.StockException;
 import Products.Product;
 import Products.ProductFactory;
@@ -26,12 +28,10 @@ public class Program {
 	public static final String REMOVE_PRODUCT = "2";
 	public static final String EDIT_PRODUCT_STOCK = "3";
 	public static final String ADD_ORDER = "4";
-	public static final String UNDO_ORDER = "5";
+	public static final String REMOVE_ORDER = "5";
 	public static final String PRINT_PRODUCT_DETAILS = "6";
 	public static final String PRINT_ALL_PRODUCTS = "7";
 	public static final String PRINT_PRODUCT_ORDERS = "8";
-	public static final String BACKUP_SYSTEM = "9";
-	public static final String RESTORE_SYSTEM = "10";
 	public static final String EXIT_1 = "E";
 	public static final String EXIT_2 = "e";
 	public static final Boolean POSITIVE = true;
@@ -39,79 +39,87 @@ public class Program {
 	public static void main(String[] args) throws Exception  {		
 		
 		Scanner sc = new Scanner(System.in);
-		SystemFacade systemFacade = SystemFacade.getInstance();
-		boolean flag = true;
-		String option;
-		System.out.println(FormatsUtils.ANSI_CYAN_BOLD + "--------------------------------------");
-		System.out.println("\tWelcome to the System!");
-		System.out.println("--------------------------------------" + FormatsUtils.ANSI_RESET);
-		do {
-			System.out.println("0 - To init the system");
-			System.out.println("1 - To add a product");
-			System.out.println("2 - To remove a product");
-			System.out.println("3 - To edit a product stock");
-			System.out.println("4 - To add a order to product");
-			System.out.println("5 - To undo an order");
-			System.out.println("6 - Print a product details");
-			System.out.println("7 - Print system profit and all products");
-			System.out.println("8 - Print product orders");
-			System.out.println("9 - To backup System");
-			System.out.println("10 - To restore System");
-			System.out.println("E/e - To Exit");
-			option = sc.nextLine();
-			switch(option) {
-			case INIT_SYSTEM:
-				systemFacade.initSystems(); 
-				break;
-			case ADD_PRODUCT:
-				addProductMenu(sc,systemFacade);
-				break;
-			case REMOVE_PRODUCT:
-				removeProduct(sc,systemFacade);
-				break;
-			case EDIT_PRODUCT_STOCK:
-				editProductStock(sc,systemFacade);
-				break;
-			case ADD_ORDER:
-				addOrderMenu(sc,systemFacade);
-				break;
-			case UNDO_ORDER:
-				System.out.println(systemFacade.undoOrder());
-				break;
-			case PRINT_PRODUCT_DETAILS:
-				printSpecificProduct(sc,systemFacade);
-				break;
-			case PRINT_ALL_PRODUCTS:
-				System.out.println(systemFacade.getAllProducts());
-				break;
-			case PRINT_PRODUCT_ORDERS:
-				printProductOrders(sc,systemFacade);
-				break;
-			case BACKUP_SYSTEM:
-				systemFacade.backUpSystem();
-				FormatsUtils.successMsg("System has been backup!\n");
-				break;
-			case RESTORE_SYSTEM:
-				systemFacade.restoreSystem();
-				FormatsUtils.successMsg("System has been restore!\n");
-				break;
-			case EXIT_1:
-			case EXIT_2:
-				System.out.println(FormatsUtils.ANSI_CYAN_BRIGHT + "Have a good day" + FormatsUtils.ANSI_RESET);
-				flag=false;
-				break;
-			default:
-				FormatsUtils.failureMsg("Invalid Input\n");
-				break;
-			}
-			
-		}while(flag);
+		try {
+			SystemFacade systemFacade = SystemFacade.getInstance();
+			boolean flag = true;
+			String option;
+			System.out.println(FormatsUtils.ANSI_CYAN_BOLD + "--------------------------------------");
+			System.out.println("\tWelcome to the System!");
+			System.out.println("--------------------------------------" + FormatsUtils.ANSI_RESET);
+			do {
+				System.out.println("1 - To add a product");
+				System.out.println("2 - To remove a product");
+				System.out.println("3 - To edit a product stock");
+				System.out.println("4 - To add an order to product");
+				System.out.println("5 - To remove an order");
+				System.out.println("6 - Print a product details");
+				System.out.println("7 - Print system profit and all products");
+				System.out.println("8 - Print product orders");
+				System.out.println("9 - To remove an order");
+				System.out.println("E/e - To Exit");
+				option = sc.nextLine();
+				switch(option) {
+				case ADD_PRODUCT:
+					addProductMenu(sc,systemFacade);
+					break;
+				case REMOVE_PRODUCT:
+					removeProduct(sc,systemFacade);
+					break;
+				case EDIT_PRODUCT_STOCK:
+					editProductStock(sc,systemFacade);
+					break;
+				case ADD_ORDER:
+					addOrderMenu(sc,systemFacade);
+					break;
+				case REMOVE_ORDER:
+					removeOrderMenu(sc,systemFacade);
+					break;
+				case PRINT_PRODUCT_DETAILS:
+					printSpecificProduct(sc,systemFacade);
+					break;
+				case PRINT_ALL_PRODUCTS:
+					System.out.println(systemFacade.getAllProducts());
+					break;
+				case PRINT_PRODUCT_ORDERS:
+					printProductOrders(sc,systemFacade);
+					break;
+				case EXIT_1:
+				case EXIT_2:
+					System.out.println(FormatsUtils.ANSI_CYAN_BRIGHT + "Have a good day" + FormatsUtils.ANSI_RESET);
+					flag=false;
+					break;
+				default:
+					FormatsUtils.failureMsg("Invalid Input\n");
+					break;
+				}
+				
+			}while(flag);
+		}
+		catch(Exception e) {
+			FormatsUtils.failureMsg(e.getMessage());
+		}
+	}
+	
+	public static void removeOrderMenu(Scanner sc,SystemFacade sf) {
+		String serialOrder;
+		System.out.println("Type order ID");
+		serialOrder = sc.nextLine();
+		try {
+		int rows=sf.removeOrder(serialOrder);
+		if(rows > 0) {
+			FormatsUtils.successMsg("Order has been deleted!\n");
+		}else {
+			FormatsUtils.failureMsg("No order match to this serial\n");
+		}}
+		catch(Exception e) {
+			FormatsUtils.failureMsg(e.getMessage()+"\n");
+		}
 	}
 	
 	
 	/**
-	 * Ex: 4.5
-	 * @see   InputExmaple: 3 AAB12 A4 Avi 0506007070 1 Israel 3
+	 * add OrderMenu
+	 * Example - customer 3, Product - 78FHC Website
 	 * @param sc
 	 * @param systemFacade
 	 */
@@ -139,7 +147,12 @@ public class Program {
 			FormatsUtils.failureMsg("Invalid Input\n");
 			return;
 		}
+		try {
 		System.out.println(systemFacade.getAllProductsByType(productType));
+		}catch(Exception e) {
+			FormatsUtils.failureMsg(e.getMessage() + "\n");
+			return ;
+		}
 		product=getProductBySerialAndType(sc,systemFacade,productType);
 		if(product == null){
 			return;
@@ -155,8 +168,6 @@ public class Program {
 		if(product instanceof ProductSoldThroughWebsite) {
 			type = getShipTypeMenu(sc);
 			sc.nextLine();//CLEAN BUFFER
-			System.out.println("Enter Dest Country");
-			destCountry=sc.nextLine();
 		}
 		else
 			type = eShipType.eNone;
@@ -175,10 +186,14 @@ public class Program {
 		String serial;
 		System.out.println("Please enter order serial");
 		serial = sc.nextLine();
-		if(systemFacade.isSerialOrderExist(serial))
+		try {
+			if(systemFacade.isSerialOrderExist(serial))
+				return null;
+			return serial;
+		}catch(Exception e) {
+			FormatsUtils.failureMsg("Error!\n" + e.getMessage());
 			return null;
-		return serial;
-			
+		}
 	}
 	
 	
@@ -199,23 +214,26 @@ public class Program {
 		
 	}
 	
-	/**
-	 * Ex: 4.3
+	/*
 	 * @see   InputExmaple: AAB12
 	 * @param sc
 	 * @param systemFacade
 	 */
 	public static void removeProduct(Scanner sc, SystemFacade systemFacade)
 	{
-		Product product;
-		product = getProductBySerial(sc, systemFacade);
-		if(product == null)
-			return;
-		if(systemFacade.removeProduct(product)) {
-			FormatsUtils.successMsg("Product was removed successfully!\n");
-			return;
+		String serial;
+		try {
+			System.out.println("Please Enter a product serial");
+			serial = sc.nextLine();
+			ProductTable pt = new ProductTable(DatabaseConnection.getConnection());
+			int rows =pt.deleteProduct(serial);
+			if(rows > 0)
+				FormatsUtils.successMsg("The product " + serial+ " was removed successfully!" );
+			else
+				FormatsUtils.failureMsg("Product is not exist\n");
+		}catch(Exception e) {
+			FormatsUtils.failureMsg("There was an error related to the DB\n");
 		}
-		FormatsUtils.failureMsg("Product has not been removed\n");
 	}
 	
 	
@@ -227,48 +245,57 @@ public class Program {
 	 */
 	public static void editProductStock(Scanner sc, SystemFacade systemFacade)
 	{
-		Product product;
+		String serial;
 		int stock;
-		product = getProductBySerial(sc, systemFacade);
-		if(product == null)
-			return;
-		stock = (int) getValidNumber(sc, "Enter a stock number for the product\n", POSITIVE, Integer.class);
-		product.setStock(stock);
-		FormatsUtils.successMsg("Product stock was updated!\n");
+		try {
+			ProductTable pt = new  ProductTable(DatabaseConnection.getConnection());
+			System.out.println("Please Enter a product serial");
+			serial = sc.nextLine();
+			stock = (int) getValidNumber(sc, "Enter a stock number for the product\n", POSITIVE, Integer.class);
+			int rowAffected =pt.updateProductStockBySerial(serial, stock);
+			if(rowAffected> 0)
+				FormatsUtils.successMsg("Product stock was updated!\n");
+			else
+				FormatsUtils.failureMsg("No product was found with this serial");
+		}catch(Exception e) {
+			FormatsUtils.failureMsg("Product update failed");
+		}
 	}
 	
 	public static Product getProductBySerial(Scanner sc,SystemFacade systemFacade) {
 		Product product;
 		String serial;
-		if(systemFacade.getProducts().isEmpty()) {
-			FormatsUtils.failureMsg("There are no products in the system\n");
-			return null;
-		}
 		System.out.println("Please Enter a product serial");
 		serial = sc.nextLine();
+		try {
 		product=systemFacade.getProductBySerial(serial);
 		if(product == null) {
 			FormatsUtils.failureMsg("Product was not found!\n");
 			return null;
 		}
 		return product;
+		}catch(Exception e) {
+			FormatsUtils.failureMsg(e.getMessage()+"\n");
+			return null;
+		}
 	}
 	
 	public static Product getProductBySerialAndType(Scanner sc,SystemFacade systemFacade,eProduct type) {
 		Product product;
 		String serial;
-		if(systemFacade.getProducts().isEmpty()) {
-			FormatsUtils.failureMsg("There are no products in the system\n");
-			return null;
-		}
 		System.out.println("Please Enter a product serial");
 		serial = sc.nextLine();
-		product=systemFacade.getProductBySerialAndType(serial,type);
-		if(product == null) {
-			FormatsUtils.failureMsg("Product was not found!\n");
+		try {
+			product=systemFacade.getProductBySerialAndType(serial);
+			if(product == null) {
+				FormatsUtils.failureMsg("Product was not found!\n");
+				return null;
+			}
+			return product;
+		}catch(Exception e) {
+			FormatsUtils.failureMsg("Error!\n" + e.getMessage());
 			return null;
 		}
-		return product;
 	}
 	
 	
@@ -407,8 +434,12 @@ public class Program {
 			break;
 		}
 		if(product!=null) {
-			systemFacade.addProduct(product);
-			FormatsUtils.successMsg("Product was added successfully!\n");
+			try {
+				systemFacade.addProductToDB(product);
+				FormatsUtils.successMsg("Product was added successfully!\n");
+			}catch(Exception e) {
+				FormatsUtils.failureMsg(e.getMessage());
+			}
 		}
 	}	
 	

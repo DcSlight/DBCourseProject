@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import Components.Contact;
 import Components.Customer;
@@ -25,7 +27,7 @@ public class OrderTable extends BasicTable<String,Object> {
 	private String profit = "profit";
 
     public OrderTable(Connection conn) {
-        super(conn, "Contact");
+        super(conn, "orders");
     }
 
     protected Order mapResultSetToEntity(ResultSet rs) throws SQLException {
@@ -35,8 +37,7 @@ public class OrderTable extends BasicTable<String,Object> {
           		rs.getDouble("selling_price"),rs.getInt("stock"), rs.getDouble("weight"));
           Customer customer = new Customer(rs.getString("full_name"),rs.getString("phone_number"),
         		  rs.getString("address"),rs.getInt("country_id"));
-          Order order = new Order(product,customer,rs.getInt(this.amount),rs.getString(this.orderID),
-        		  rs.getDouble(this.profit));
+          Order order = new Order(product,customer,rs.getInt(amount),rs.getString(orderID));
           return order;
     }
     
@@ -51,6 +52,20 @@ public class OrderTable extends BasicTable<String,Object> {
          while(rs.next())
         	 return mapResultSetToEntity(rs);
          return null;
+    }
+    
+    public Set<Order> getAllOrdersByProdustSerial(String productSerial) throws SQLException{
+    	String sql = "SELECT * FROM orders\r\n"
+      			+ "INNER JOIN product ON product.serial = orders.product_serial\r\n"
+      			+ "INNER JOIN customer ON customer.customer_id = orders.customer_id\r\n"
+      			+ "WHERE product_serial = ?";
+    	PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setObject(1, productSerial);
+        ResultSet rs = stmt.executeQuery();
+        Set<Order> orders = new HashSet<>();
+        while(rs.next())
+        	orders.add(mapResultSetToEntity(rs));
+        return orders;
     }
 
     public void createOrder(Order order) throws Exception {
@@ -72,8 +87,18 @@ public class OrderTable extends BasicTable<String,Object> {
         entityMap.put(this.customerId, order.getCustomer().getCountryID());
         this.update(entityMap, this.orderID,orderID);
     }
+    
+    public double getTotalProfitBySerial(String productID) throws Exception {
+    	String sql = "select sum(profit) as total_profit from orders WHERE product_serial=?";
+    	PreparedStatement stmt = conn.prepareStatement(sql);
+    	stmt.setObject(1, productID);
+        ResultSet rs = stmt.executeQuery(); // Return the ResultSet containing all rows
+        while(rs.next())
+        	return rs.getDouble("total_profit");
+        throw new Exception("error getting total profit from the DB");
+    }
 
-    public int deleteContact(String orderID) throws Exception {
+    public int deleteOrder(String orderID) throws Exception {
         return this.delete(this.orderID, orderID);
     }
 }

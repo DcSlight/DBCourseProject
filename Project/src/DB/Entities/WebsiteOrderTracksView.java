@@ -11,6 +11,7 @@ import java.util.Set;
 import DB.BasicTable;
 import Shipping.Track;
 import eNums.eShipMethod;
+import eNums.eShipType;
 
 public class WebsiteOrderTracksView extends BasicTable<String,Object> {
 	private String shippingType = "shippingtype";
@@ -30,18 +31,18 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
      * this method doesnt support prepare statement (DO in postgress doesnt support ?)
      * @throws SQLException 
      */
-    public void insertOrderTransaction(int companyID,String orderID,List<Track> tracks) throws SQLException {
+    public void insertOrderTransaction(int companyID,String orderID,eShipType shipType,List<Track> tracks,double shippingFee) throws SQLException {
     	String trackString =this.trackSetToStrings(tracks);
     	String sql = "DO $$\r\n"
     			+ "DECLARE\r\n"
     			+ "    generated_status_code INT;\r\n"
     			+ "BEGIN\r\n"
-    			+ "    INSERT INTO shipping_status (company_id, order_id)\r\n"
-    			+ "    VALUES ("+companyID+", '"+orderID+"')\r\n"
+    			+ "    INSERT INTO shipping_status (company_id, order_id,shipping_fee)\r\n"
+    			+ "    VALUES ("+companyID+", '"+orderID+"',"+shippingFee+")\r\n"
     			+ "    RETURNING status_code INTO generated_status_code;\r\n"
     			+ "\r\n"
-    			+ "    INSERT INTO order_website (order_id, status_code)\r\n"
-    			+ "    VALUES ('"+orderID+"', generated_status_code);\r\n"
+    			+ "    INSERT INTO order_website (order_id, status_code,ship_type)\r\n"
+    			+ "    VALUES ('"+orderID+"', generated_status_code , '"+shipType+"');\r\n"
     			+ "\r\n"
     			+ "    INSERT INTO tracks (shippingType, from_country_id, date_departure, to_country_id, date_arrive, shipping_status_id)\r\n"
     			+ "    VALUES \r\n"

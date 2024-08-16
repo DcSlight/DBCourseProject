@@ -4,7 +4,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import Components.Country;
 import Components.Customer;
+import DB.DatabaseConnection;
+import DB.Entities.CountryTable;
 import Interfaces.IInvoice;
 import Invoice.InvoiceAdapterFactory;
 import Products.Product;
@@ -20,11 +23,11 @@ public class Order{
 	private Customer customer;
 	private Set<IInvoice> allInvoice;
 	
-	public Order(Product product, Customer customer,int amount,String serial,double profit) {
+	public Order(Product product, Customer customer,int amount,String serial) {
 		this.product = product;
 		this.customer = customer;
 		this.amount = amount;
-		this.profit  = profit;
+		this.profit  = 5;//TODO: from DB BY SERIAL FIND
 		this.allInvoice = new HashSet<IInvoice>();
 		this.serial = serial;
 		initInvoice();	
@@ -101,6 +104,14 @@ public class Order{
 		StringBuffer st = new StringBuffer();
 		st.append("Order serial:" + serial + "\n");
 		st.append(customer + "\n");
+		st.append("Address: " + customer.getAddress()+ "\n");
+		try {
+		CountryTable ct = new CountryTable(DatabaseConnection.getConnection());
+		Country country = ct.findCountryByID(customer.getCountryID());
+		st.append("Country: " + country.getCountry()+ "\n");
+		}catch(Exception e) {
+			st.append("Country: Error getting country\n");
+		}
 		st.append("Quantity: " + amount + "\n");
 		for(IInvoice invoice : allInvoice) {
 			st.append(invoice.showInvoice());

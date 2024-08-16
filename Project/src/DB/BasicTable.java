@@ -36,7 +36,6 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	    
 	
 	    String sql = "INSERT INTO " + tableName + " (" + columns.toString() + ") VALUES (" + values.toString() + ")";
-	    System.out.println(sql);
 	    PreparedStatement stmt = conn.prepareStatement(sql);
 	    // Set the values in the prepared statement
 	    int index = 1;
@@ -47,7 +46,7 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
     }
 	
 	@Override
-	public void update(Map<K, V> entity, String primaryKeyColumn, V primaryKeyValue) throws Exception {
+	public int update(Map<K, V> entity, String primaryKeyColumn, V primaryKeyValue) throws Exception {
 	    // Construct the SET params of the SQL UPDATE statement
 	    StringBuffer params = new StringBuffer();
 	
@@ -71,7 +70,7 @@ public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	    }
 	    // Set the primary key value for the WHERE clause
 	    stmt.setObject(index, primaryKeyValue);
-	    stmt.executeUpdate();
+	    return stmt.executeUpdate();
 	}
 
 	@Override
