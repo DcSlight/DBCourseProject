@@ -76,7 +76,7 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     protected Track mapResultSetToEntityTrack(ResultSet rs) throws Exception {
     	Track t = new Track(eShipMethod.valueOf(rs.getString(shippingType)),
     			rs.getInt(fromCountryID),rs.getString(dateDeparture),
-    			rs.getInt(toCountryID),rs.getString(dateArrive));
+    			rs.getInt(toCountryID),rs.getString(dateArrive),rs.getBoolean("has_arrive"));
         return t;
     }
     
@@ -88,16 +88,7 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     	return tracks;
     }
     
-    //TODO : change to automatic
-    public void updateTrackToArrive(int trackID) throws SQLException {
-    	String sql = "UPDATE tracks\r\n"
-    			+ "SET has_arrive = True\r\n"
-    			+ "WHERE track_id=?;";
-    	PreparedStatement  stmt = conn.prepareStatement(sql);
-    	stmt.setObject(1, trackID);
-    	stmt.executeUpdate();
-    }
-    
+
     public double getAverageVATRate(String orderID) throws Exception {
     	String sql = "SELECT ROUND(AVG(countries.vat_rate), 2) AS average_vat_rate\r\n"
     			+ "FROM shipping_order_tracks_view\r\n"

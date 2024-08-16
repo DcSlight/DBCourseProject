@@ -111,7 +111,6 @@ CREATE TABLE tracks (
     to_country_id INT NOT NULL,
     date_arrive TIMESTAMP NOT NULL,
     shipping_status_id INT NOT NULL,
-	has_arrive BOOLEAN DEFAULT false,
     FOREIGN KEY (from_country_id) REFERENCES countries(country_id) ON DELETE CASCADE,
     FOREIGN KEY (to_country_id) REFERENCES countries(country_id) ON DELETE CASCADE,
     FOREIGN KEY (shipping_status_id) REFERENCES shipping_status(status_code)
@@ -119,7 +118,7 @@ CREATE TABLE tracks (
 
 -- VIEW FOR ORDERS --	
 
-CREATE VIEW shipping_order_tracks_view AS
+CREATE OR REPLACE VIEW shipping_order_tracks_view AS
 SELECT 
     shipping_status.status_code,
     shipping_status.company_id,
@@ -130,7 +129,9 @@ SELECT
     tracks.from_country_id,
     tracks.date_departure,
     tracks.to_country_id,
-    tracks.date_arrive
+    tracks.date_arrive,
+    -- Dynamically calculate has_arrive
+    NOW() > tracks.date_arrive AS has_arrive
 FROM 
     shipping_status
 JOIN 
@@ -138,5 +139,3 @@ JOIN
 JOIN 
     tracks ON shipping_status.status_code = tracks.shipping_status_id;
 
-select * from order_website
-INNER JOIN shipping_status ON shipping_status.status_code = order_website.status_code

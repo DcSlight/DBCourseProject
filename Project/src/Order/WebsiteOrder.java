@@ -63,12 +63,12 @@ public class WebsiteOrder extends Order{
 			if(fromCountry != this.getCustomer().getCountryID()) {
 				//for any country thats not the last country
 				t= new Track(randomType,fromCountry,dates.get(index),
-						countriesRoute.get(index+1),dates.get(index+1));
+						countriesRoute.get(index+1),dates.get(index+1),false);
 			}
 			else {
 				//if arrive to last country
 				t= new Track(eShipMethod.eTruck,fromCountry,dates.get(index),
-						countriesRoute.get(index),dates.get(index+1));
+						countriesRoute.get(index),dates.get(index+1),false);
 			}
 			tracks.add(t);
 			if(index < countriesRoute.size())

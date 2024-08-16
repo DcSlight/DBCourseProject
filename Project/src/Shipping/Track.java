@@ -13,16 +13,23 @@ public class Track {
 	private Date dateDeparture;
 	private Integer toCountryID;
 	private Date dateArrive;
+	private boolean hasArrive;
 	
 	public Track(eShipMethod shippmentType, Integer fromCountryID, String dateDeparture, Integer toCountryID,
-			String dateArrive) throws Exception {
+			String dateArrive,boolean hasArrive) throws Exception {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		this.shippmentType = shippmentType;
 		this.fromCountryID = fromCountryID;
 		this.dateDeparture = dateFormat.parse(dateDeparture);
 		this.toCountryID = toCountryID;
 		this.dateArrive = dateFormat.parse(dateArrive);;
+		this.hasArrive = hasArrive;
 	}
+	
+	public boolean hasArrive() {
+		return hasArrive;
+	}
+	
 	public eShipMethod getShippmentType() {
 		return shippmentType;
 	}
