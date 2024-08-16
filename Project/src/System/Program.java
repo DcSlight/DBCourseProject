@@ -178,7 +178,7 @@ public class Program {
 		}catch(StockException e ) {
 			FormatsUtils.failureMsg(e.getMessage() + "\n");
 		}catch(Exception e) {
-			System.out.println(e.getMessage());
+			FormatsUtils.failureMsg(e.getMessage()+ "\n");
 		}
 	}
 	

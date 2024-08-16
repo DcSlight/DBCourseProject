@@ -22,3 +22,25 @@ BEGIN
     -- Commit the transaction
     COMMIT;
 END $$;
+
+
+
+--make order ---
+BEGIN;
+INSERT INTO orders (order_id, amount, profit, order_datetime)
+VALUES ('ORD123', 10, 200.00, NOW());
+UPDATE product
+SET stock = stock - 10
+WHERE serial = 'PDKSU2';
+DO $$
+BEGIN
+    IF (SELECT stock FROM product WHERE serial = 'PDKSU2') < 0 THEN
+        RAISE EXCEPTION 'Not enough stock for product PDKSU2';
+    END IF;
+END $$;
+INSERT INTO make_order (customer_id, product_id, order_id)
+VALUES (1, 'PDKSU2', 'ORD123');
+
+COMMIT;
+
+

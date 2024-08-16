@@ -42,10 +42,7 @@ public class OrderTable extends BasicTable<String,Object> {
     }
     
     public Order findOrderBySerial(String serialOrder) throws Exception{
-    	 String sql = "SELECT * FROM orders\r\n"
-     			+ "INNER JOIN product ON product.serial = orders.product_serial\r\n"
-     			+ "INNER JOIN customer ON customer.customer_id = orders.customer_id\r\n"
-     			+ "WHERE order_id = ?";
+    	 String sql = "SELECT * FROM make_order_view WHERE order_id=?";
     	 PreparedStatement stmt = conn.prepareStatement(sql);
          stmt.setObject(1, serialOrder);
          ResultSet rs = stmt.executeQuery(); // Return the ResultSet containing all rows
@@ -69,15 +66,23 @@ public class OrderTable extends BasicTable<String,Object> {
     }
 
     public void createOrder(Order order) throws Exception {
-        // Create a map to hold column-value pairs
-        Map<String, Object> entityMap = new HashMap<>();
-        entityMap.put(this.orderID, order.getSerial());
-        entityMap.put(this.amount, order.getAmount());
-        entityMap.put(this.productSerial, order.getProduct().getSerial());
-        entityMap.put(this.customerId, order.getCustomer().getCustomerID());
-
-        // Call the generic create method
-        this.create(entityMap);
+    	String sql="BEGIN;\r\n"
+    			+ "INSERT INTO orders (order_id, amount, order_datetime)\r\n"
+    			+ "VALUES ('"+order.getSerial()+"', "+order.getAmount()+", NOW());\r\n"
+    			+ "UPDATE product\r\n"
+    			+ "SET stock = stock - "+order.getAmount()+"\r\n"
+    			+ "WHERE serial = '"+order.getProduct().getSerial()+"';\r\n"
+    			+ "DO $$\r\n"
+    			+ "BEGIN\r\n"
+    			+ "    IF (SELECT stock FROM product WHERE serial = '"+order.getProduct().getSerial()+"') < 0 THEN\r\n"
+    			+ "        RAISE EXCEPTION 'Not enough stock for product "+order.getProduct().getSerial()+"';\r\n"
+    			+ "    END IF;\r\n"
+    			+ "END $$;\r\n"
+    			+ "INSERT INTO make_order (customer_id, product_id, order_id)\r\n"
+    			+ "VALUES ("+order.getCustomer().getCustomerID()+", '"+order.getProduct().getSerial()+"', '"+order.getSerial()+"');\r\n"
+    			+ "COMMIT;";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.executeUpdate();
     }
 
     public void updateOrderById(String orderID, Order order) throws Exception {
