@@ -116,7 +116,6 @@ CREATE TABLE tracks (
     FOREIGN KEY (from_country_id) REFERENCES countries(country_id) ON DELETE CASCADE,
     FOREIGN KEY (to_country_id) REFERENCES countries(country_id) ON DELETE CASCADE,
 );
-SELECT * FROM orders
 	
 -- VIEW FOR ORDERS --	
 CREATE OR REPLACE VIEW shippment_route_view AS
@@ -174,4 +173,3 @@ CREATE TABLE shippment_route (
     FOREIGN KEY (tracks_id) REFERENCES tracks(track_id) ON DELETE CASCADE
 );
 
-select * from product

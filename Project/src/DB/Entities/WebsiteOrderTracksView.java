@@ -25,35 +25,42 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
         super(conn, "shipping_order_tracks_view");
     }
     
-    /** 
-     * Important: this method will not insert to the view.
-     * this method will insert values to 3 different table.
-     * this method doesnt support prepare statement (DO in postgress doesnt support ?)
-     * @throws SQLException 
+    /*
+     * Insert website order using transaction
+     * that does:
+		1.insert to order_website
+		2.insert to shipping_status
+		3.insert 1 tracks
+		4.insert to shippment_route
      */
     public void insertOrderTransaction(int companyID,String orderID,eShipType shipType,List<Track> tracks,double shippingFee) throws SQLException {
     	String trackString =this.trackSetToStrings(tracks);
-    	String sql = "DO $$\r\n"
-    			+ "DECLARE\r\n"
-    			+ "    generated_status_code INT;\r\n"
-    			+ "BEGIN\r\n"
-    			+ "    INSERT INTO shipping_status (company_id, order_id,shipping_fee)\r\n"
-    			+ "    VALUES ("+companyID+", '"+orderID+"',"+shippingFee+")\r\n"
-    			+ "    RETURNING status_code INTO generated_status_code;\r\n"
+    	String sql = "BEGIN;\r\n"
     			+ "\r\n"
-    			+ "    INSERT INTO order_website (order_id, status_code,ship_type)\r\n"
-    			+ "    VALUES ('"+orderID+"', generated_status_code , '"+shipType+"');\r\n"
+    			+ "INSERT INTO order_website (order_id, ship_type)\r\n"
+    			+ "VALUES ('"+orderID+"', '"+shipType.toString()+"');\r\n"
     			+ "\r\n"
-    			+ "    INSERT INTO tracks (shippingType, from_country_id, date_departure, to_country_id, date_arrive, shipping_status_id)\r\n"
+    			+ "WITH inserted_status AS (\r\n"
+    			+ "    INSERT INTO shipping_status (company_id, shipping_fee, status)\r\n"
+    			+ "    VALUES ("+companyID+", "+shippingFee+", 'eOnTheWay')\r\n"
+    			+ "    RETURNING status_code\r\n"
+    			+ "),\r\n"
+    			+ "\r\n"
+    			+ "inserted_tracks AS (\r\n"
+    			+ "    INSERT INTO tracks (shippingType, from_country_id, date_departure, to_country_id, date_arrive)\r\n"
     			+ "    VALUES \r\n"
-    			+ "    "+ trackString+";\r\n"
+    			+ trackString+"\r\n"
+    			+ "    RETURNING track_id, shippingType\r\n"
+    			+ ")\r\n"
     			+ "\r\n"
-    			+ "    -- Commit the transaction\r\n"
-    			+ "    COMMIT;\r\n"
-    			+ "END $$;\r\n"
-    			+ "";
-    	Statement  stmt = conn.createStatement();
-    	stmt.execute(sql);
+    			+ "INSERT INTO shippment_route (order_id, status_id, tracks_id)\r\n"
+    			+ "SELECT '"+orderID+"', inserted_status.status_code, track_id\r\n"
+    			+ "FROM inserted_tracks, inserted_status;\r\n"
+    			+ "\r\n"
+    			+ "COMMIT;";
+    	System.out.println(sql);
+    	PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.executeUpdate();
     }
     
     private String trackSetToStrings(List<Track> tracks) {
@@ -68,7 +75,7 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     private String trackToInsertString(Track t) {
     	String str;
     	str="('"+t.getShippmentType()+"', "+t.getFromCountryID()+", '"+t.formatDate(t.getDateDeparture())
-    	+"', "+t.getToCountryID() +", '"+t.formatDate(t.getDateArrive())+"', generated_status_code)";
+    	+"', "+t.getToCountryID() +", '"+t.formatDate(t.getDateArrive())+"' )";
     	return str;
     }
     
