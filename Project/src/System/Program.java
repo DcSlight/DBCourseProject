@@ -359,9 +359,10 @@ public class Program {
 				sc.nextLine();//clean Buffer
 				System.out.println("Enter address");
 				address = sc.nextLine();
-				c = new Customer(name,mobile,address,countryID);
 				CustomerTable customerTable = new CustomerTable(conn);
-				customerTable.createCustomer(c);
+				customerTable.createCustomer(name,mobile,address,countryID);
+				int customerId =customerTable.getCustomerID(name,mobile);
+				c = new Customer(name,mobile,address,countryID,customerId);
 				return c;
 			}
 			else {

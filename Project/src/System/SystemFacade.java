@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import Components.Contact;
 import Components.Customer;
 import DB.DatabaseConnection;
+import DB.Entities.CustomerTable;
 import DB.Entities.OrderTable;
 import DB.Entities.ProductTable;
 import DB.Entities.ShippingCompanyTable;

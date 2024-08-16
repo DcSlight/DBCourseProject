@@ -1,15 +1,19 @@
 package DB.Entities;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import Components.Country;
 import Components.Customer;
 import DB.BasicTable;
 import DB.DatabaseConnection;
+import Order.Order;
 
 public class CustomerTable extends BasicTable<String,Object> {
 	
@@ -25,7 +29,7 @@ public class CustomerTable extends BasicTable<String,Object> {
 
     protected Customer mapResultSetToEntity(ResultSet rs) throws SQLException {
         Customer customer = new Customer(rs.getString(fullName),rs.getString(phoneNumber)
-        		,rs.getString(address), rs.getInt(countryID));
+        		,rs.getString(address), rs.getInt(countryID),rs.getInt(customerID));
         return customer;
     }
     
@@ -48,16 +52,27 @@ public class CustomerTable extends BasicTable<String,Object> {
 	    }
 		return c;
     }
+    
+    public int getCustomerID(String name, String mobile) throws Exception {
+    	String sql ="select * from customer where full_name=? AND phone_number=?";
+    	PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setObject(1, name);
+        stmt.setObject(2,mobile);
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next())
+        	return mapResultSetToEntity(rs).getCustomerID();
+        throw new Exception("Can not find customer");
+    }
 
-    public void createCustomer(Customer customer) throws Exception {
+    public void createCustomer(String name,String mobile,String address,int countryID) throws Exception {
         // Create a map to hold column-value pairs
         Map<String, Object> entityMap = new HashMap<>();
-        entityMap.put(fullName, customer.getCustomerName());
-        entityMap.put(phoneNumber, customer.getMobile());
-        entityMap.put(this.address, customer.getAddress());
+        entityMap.put(fullName, name);
+        entityMap.put(phoneNumber, mobile);
+        entityMap.put(this.address, address);
         CountryTable ct = new CountryTable(DatabaseConnection.getConnection());
-        ct.findCountryByID(customer.getCountryID());// if not found throw an error
-        entityMap.put(this.countryID, customer.getCountryID());
+        ct.findCountryByID(countryID);// if not found throw an error
+        entityMap.put(this.countryID, countryID);
         // Call the generic create method
         this.create(entityMap);
     }

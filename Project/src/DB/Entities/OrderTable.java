@@ -36,7 +36,7 @@ public class OrderTable extends BasicTable<String,Object> {
           		rs.getString("product_name"), rs.getDouble("cost_price"),
           		rs.getDouble("selling_price"),rs.getInt("stock"), rs.getDouble("weight"));
           Customer customer = new Customer(rs.getString("full_name"),rs.getString("phone_number"),
-        		  rs.getString("address"),rs.getInt("country_id"));
+        		  rs.getString("address"),rs.getInt("country_id"),rs.getInt(customerId));
           Order order = new Order(product,customer,rs.getInt(amount),rs.getString(orderID));
           return order;
     }
@@ -74,7 +74,7 @@ public class OrderTable extends BasicTable<String,Object> {
         entityMap.put(this.orderID, order.getSerial());
         entityMap.put(this.amount, order.getAmount());
         entityMap.put(this.productSerial, order.getProduct().getSerial());
-        entityMap.put(this.customerId, order.getCustomer().getCountryID());
+        entityMap.put(this.customerId, order.getCustomer().getCustomerID());
 
         // Call the generic create method
         this.create(entityMap);

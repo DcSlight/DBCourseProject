@@ -7,12 +7,18 @@ public class Customer{
 	private String mobile;
 	private String address;
 	private int countryID;
+	private int customerID;
 	
-	public Customer(String customerName, String mobile, String address, int countryID) {
+	public Customer(String customerName, String mobile, String address, int countryID,int customerID) {
 		this.customerName = customerName;
 		this.mobile = mobile;
 		this.address = address;
 		this.countryID = countryID;
+		this.customerID = customerID;
+	}
+	
+	public int getCustomerID() {
+		return customerID;
 	}
 	
 	public String getAddress() {
