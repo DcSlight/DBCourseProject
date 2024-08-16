@@ -40,7 +40,6 @@ BEGIN
 END $$;
 INSERT INTO make_order (customer_id, product_id, order_id)
 VALUES (1, 'PDKSU2', 'ORD123');
-
 COMMIT;
 
 

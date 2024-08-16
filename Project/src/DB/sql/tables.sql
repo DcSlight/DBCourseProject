@@ -173,3 +173,5 @@ CREATE TABLE shippment_route (
     FOREIGN KEY (status_id) REFERENCES shipping_status(status_code) ON DELETE CASCADE,
     FOREIGN KEY (tracks_id) REFERENCES tracks(track_id) ON DELETE CASCADE
 );
+
+select * from product
