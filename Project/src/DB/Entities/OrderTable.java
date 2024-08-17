@@ -99,6 +99,16 @@ public class OrderTable extends BasicTable<String,Object> {
         	return rs.getDouble("total_profit");
         throw new Exception("error getting total profit from the DB");
     }
+    
+    public double getTotalProfit() throws Exception {
+    	String sql = "select sum(profit) as total_profit from make_order_view";
+    	PreparedStatement stmt = conn.prepareStatement(sql);
+    	ResultSet rs = stmt.executeQuery(); 
+    	while(rs.next()) {
+    		return rs.getDouble("total_profit");
+    	}
+    	throw new Exception("error getting total profit from the DB");
+    }
 
     public int deleteOrder(String orderID) throws Exception {
         return this.delete(this.orderID, orderID);

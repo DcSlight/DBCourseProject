@@ -35,6 +35,14 @@ public class ProductTable extends BasicTable<String,Object> {
         return product;
     }
     
+    public Set<Product> getAllProducts() throws Exception{
+    	ResultSet rs =findAll();
+    	Set<Product> products = new HashSet<Product>();
+    	while(rs.next())
+    		products.add(mapResultSetToEntity(rs));
+    	return products;
+    }
+    
     public Product findProductBySerial(String serial) throws Exception{
     	Product product = null;
 		ResultSet rs =this.findBy(this.serial, serial);

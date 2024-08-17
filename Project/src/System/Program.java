@@ -3,8 +3,10 @@ package System;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Set;
 
 import Components.Country;
 import Components.Customer;
@@ -17,6 +19,7 @@ import Exception.StockException;
 import Products.Product;
 import Products.ProductFactory;
 import Products.ProductSoldThroughWebsite;
+import Shipping.Track;
 import Utils.FormatsUtils;
 import eNums.eProduct;
 import eNums.eShipType;
@@ -32,6 +35,7 @@ public class Program {
 	public static final String PRINT_PRODUCT_DETAILS = "6";
 	public static final String PRINT_ALL_PRODUCTS = "7";
 	public static final String PRINT_PRODUCT_ORDERS = "8";
+	public static final String ORDER_ROUTE = "9";
 	public static final String EXIT_1 = "E";
 	public static final String EXIT_2 = "e";
 	public static final Boolean POSITIVE = true;
@@ -55,7 +59,7 @@ public class Program {
 				System.out.println("6 - Print a product details");
 				System.out.println("7 - Print system profit and all products");
 				System.out.println("8 - Print product orders");
-				System.out.println("9 - To remove an order");
+				System.out.println("9 - Watch order route");
 				System.out.println("E/e - To Exit");
 				option = sc.nextLine();
 				switch(option) {
@@ -83,6 +87,9 @@ public class Program {
 				case PRINT_PRODUCT_ORDERS:
 					printProductOrders(sc,systemFacade);
 					break;
+				case ORDER_ROUTE:
+					orderRouteMenu(sc,systemFacade);
+					break;
 				case EXIT_1:
 				case EXIT_2:
 					System.out.println(FormatsUtils.ANSI_CYAN_BRIGHT + "Have a good day" + FormatsUtils.ANSI_RESET);
@@ -98,6 +105,12 @@ public class Program {
 		catch(Exception e) {
 			FormatsUtils.failureMsg(e.getMessage());
 		}
+	}
+	
+	public static void orderRouteMenu(Scanner sc,SystemFacade sf) {
+		String orderID = getSerialOrder(sc, sf);
+		String res = sf.findAllTracksByOrderID(orderID);
+		System.out.println(res);
 	}
 	
 	public static void removeOrderMenu(Scanner sc,SystemFacade sf) {
@@ -187,7 +200,7 @@ public class Program {
 		System.out.println("Please enter order serial");
 		serial = sc.nextLine();
 		try {
-			if(systemFacade.isSerialOrderExist(serial))
+			if(!systemFacade.isSerialOrderExist(serial))
 				return null;
 			return serial;
 		}catch(Exception e) {
@@ -386,7 +399,11 @@ public class Program {
 		FormatsUtils.printTitle("\t The Product Orders", FormatsUtils.ANSI_CYAN);
 		product = getProductBySerial(sc, systemFacade);
 		if(product !=null)
-			System.out.println(systemFacade.getProductOrders(product) + "\n");
+			try {
+				System.out.println(systemFacade.getProductOrders(product) + "\n");
+			} catch (Exception e) {
+				FormatsUtils.failureMsg(e.getMessage()+"\n");
+			}
 	}
 	
 	/**

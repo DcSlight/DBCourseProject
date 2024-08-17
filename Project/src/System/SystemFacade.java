@@ -1,6 +1,7 @@
 package System;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -94,27 +95,31 @@ public class SystemFacade {
 		}
 	}
 	
-	public float getSystemTotalProfit() {
-		double sum=0;
-		for(Product product : products) {
-			sum+=product.getTotalProfit();
-		}
-		return (float)sum;
+	public float getSystemTotalProfit() throws Exception {
+		OrderTable ot = new OrderTable(conn);
+		return (float) ot.getTotalProfit();
 	}
 	
 	/**
 	 * Ex: 4.8
+	 * @throws Exception 
 	 */
-	public String getAllProducts() {
+	public String getAllProducts() throws Exception {
 		int num = 1;
 		StringBuffer st = new StringBuffer();
 		st.append(FormatsUtils.ANSI_CYAN + "\n--------------------------------------\n");
 		st.append("\t  All Products\n");
 		st.append("--------------------------------------\n" + FormatsUtils.ANSI_RESET);
+		try {
+		ProductTable pt = new ProductTable(this.conn);
+		Set<Product> products = pt.getAllProducts();
 		for(Product product : products) {
 			st.append(FormatsUtils.ANSI_YELLOW_BOLD + "Product " + num + ":\n" + FormatsUtils.ANSI_RESET);
 			st.append(product.toString());
 			num++;
+		}}
+		catch(Exception e) {
+			FormatsUtils.failureMsg(e.getMessage()+"\n");
 		}
 		st.append(FormatsUtils.ANSI_CYAN_BRIGHT + "\nTotal profit in system: " + getSystemTotalProfit()+"$\n" + FormatsUtils.ANSI_RESET);
 		return st.toString();
@@ -194,7 +199,7 @@ public class SystemFacade {
 		return false;
 	}
 	
-	public String getProductOrders(Product product) {
+	public String getProductOrders(Product product) throws SQLException, Exception {
 		return product.getAllOrders();
 	}
 	
@@ -217,13 +222,38 @@ public class SystemFacade {
 		return false;
 	}
 	
+	public String findAllTracksByOrderID(String orderID) {
+		WebsiteOrderTracksView websiteTracks = new WebsiteOrderTracksView(conn);
+		StringBuffer str = new StringBuffer();
+		try {
+		    ResultSet rs = websiteTracks.findAllTracksByOrderID(orderID);
+		    int index =1;
+		    String color;
+			while(rs.next()) {
+				color= FormatsUtils.ANSI_RESET;
+				if(rs.getBoolean("has_arrive")) {
+					color= FormatsUtils.ANSI_GREEN_BRIGHT;
+				}
+				str.append(FormatsUtils.ANSI_YELLOW_BOLD + "Track " +index + color + "\n");
+				str.append("Company:  " +rs.getString("company_name") + color+"\n");
+				str.append("Shipping Type: " +rs.getString("shippingtype") +color+"\n");
+				str.append("Countries: "  +rs.getString("from_country_name") +"->" + rs.getString("to_country_name")+color+"\n");
+				str.append("Dates: "  +rs.getString("date_departure") +"->" + rs.getString("date_arrive")+color+"\n");
+				index++;
+			}
+			return str.toString();
+		}catch(Exception e) {
+			return null;
+		}
+	}
+	
 	public Set<Product> getProducts(){
 		return this.products;
 	}
 	
-	public Set<ShippingCompany> getCompanies(){
-		return this.companies;
-	}
+//	public Set<ShippingCompany> getCompanies(){
+//		return this.companies;
+//	}
 	
 	public static SystemFacade getInstance() throws SQLException, Exception {
 		if (instance == null) {

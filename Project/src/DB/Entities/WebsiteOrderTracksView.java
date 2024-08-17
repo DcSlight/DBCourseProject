@@ -86,12 +86,23 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
         return t;
     }
     
-    public Set<Track> findAllTracksByOrderID(String orderID) throws Exception{
-    	ResultSet rs =this.findBy(this.orderID, orderID);
-    	Set<Track> tracks = new HashSet<>();
-    	while(rs.next())
-    		tracks.add(mapResultSetToEntityTrack(rs));
-    	return tracks;
+    public ResultSet findAllTracksByOrderID(String orderID) throws Exception{
+    	 String sql = "select order_id,\r\n"
+    	 		+ "shipping_company.name AS company_name,\r\n"
+    	 		+ "shippment_route_view.shippingType, \r\n"
+    	 		+ "from_countries.country AS from_country_name,\r\n"
+    	 		+ "to_countries.country AS to_country_name,\r\n"
+    	 		+ "shippment_route_view.date_departure,\r\n"
+    	 		+ "shippment_route_view.date_arrive,\r\n"
+    	 		+ "shippment_route_view.has_arrive\r\n"
+    	 		+ "from shippment_route_view\r\n"
+    	 		+ "INNER JOIN shipping_company ON shippment_route_view.company_id = shipping_company.company_id\r\n"
+    	 		+ "INNER JOIN countries AS from_countries ON shippment_route_view.from_country_id = from_countries.country_id\r\n"
+    	 		+ "INNER JOIN countries AS to_countries ON shippment_route_view.to_country_id = to_countries.country_id\r\n"
+    	 		+ "WHERE order_id=?";
+    	    PreparedStatement stmt = conn.prepareStatement(sql);
+    	    stmt.setObject(1, orderID);
+    	    return stmt.executeQuery();
     }
     
 
