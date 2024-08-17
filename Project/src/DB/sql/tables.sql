@@ -147,11 +147,19 @@ CREATE OR REPLACE VIEW make_order_view AS
 SELECT 
     make_order.customer_id,
     customer.full_name,
+	customer.phone_number,
 	customer.address,
 	customer.country_id,
     make_order.product_id,
+	orders.profit,
+	product.type,
     product.product_name,
+	product.cost_price,
+	product.selling_price,
+	product.stock,
+	product.weight,
     make_order.order_id,
+	orders.amount,
     orders.order_datetime
 FROM 
     make_order

@@ -32,7 +32,7 @@ public class OrderTable extends BasicTable<String,Object> {
 
     protected Order mapResultSetToEntity(ResultSet rs) throws SQLException {
     	  eProduct pType = eProduct.valueOf(rs.getString("type"));
-          Product product = ProductFactory.createProduct(pType, rs.getString(this.productSerial),
+          Product product = ProductFactory.createProduct(pType, rs.getString("product_id"),
           		rs.getString("product_name"), rs.getDouble("cost_price"),
           		rs.getDouble("selling_price"),rs.getInt("stock"), rs.getDouble("weight"));
           Customer customer = new Customer(rs.getString("full_name"),rs.getString("phone_number"),
@@ -52,10 +52,7 @@ public class OrderTable extends BasicTable<String,Object> {
     }
     
     public Set<Order> getAllOrdersByProdustSerial(String productSerial) throws SQLException{
-    	String sql = "SELECT * FROM orders\r\n"
-      			+ "INNER JOIN product ON product.serial = orders.product_serial\r\n"
-      			+ "INNER JOIN customer ON customer.customer_id = orders.customer_id\r\n"
-      			+ "WHERE product_serial = ?";
+    	String sql = "SELECT * FROM make_order_view where product_id=?";
     	PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setObject(1, productSerial);
         ResultSet rs = stmt.executeQuery();
@@ -94,7 +91,7 @@ public class OrderTable extends BasicTable<String,Object> {
     }
     
     public double getTotalProfitBySerial(String productID) throws Exception {
-    	String sql = "select sum(profit) as total_profit from orders WHERE product_serial=?";
+    	String sql = "select sum(profit) as total_profit from make_order_view WHERE product_id=?";
     	PreparedStatement stmt = conn.prepareStatement(sql);
     	stmt.setObject(1, productID);
         ResultSet rs = stmt.executeQuery(); // Return the ResultSet containing all rows
