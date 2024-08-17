@@ -104,9 +104,9 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
 
     public double getAverageVATRate(String orderID) throws Exception {
     	String sql = "SELECT ROUND(AVG(countries.vat_rate), 2) AS average_vat_rate\r\n"
-    			+ "FROM shipping_order_tracks_view\r\n"
-    			+ "INNER JOIN countries ON shipping_order_tracks_view.to_country_id = countries.country_id\r\n"
-    			+ "WHERE shipping_order_tracks_view.order_id = ?;";
+    			+ "FROM shippment_route_view \r\n"
+    			+ "INNER JOIN countries on shippment_route_view.to_country_id=countries.country_id\r\n"
+    			+ "WHERE shippment_route_view.order_id=?";
     	PreparedStatement  stmt = conn.prepareStatement(sql);
     	stmt.setObject(1, orderID);
     	ResultSet rs = stmt.executeQuery();

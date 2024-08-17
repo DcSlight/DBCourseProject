@@ -8,6 +8,7 @@ import Components.Country;
 import Components.Customer;
 import DB.DatabaseConnection;
 import DB.Entities.CountryTable;
+import DB.Entities.OrderTable;
 import Interfaces.IInvoice;
 import Invoice.InvoiceAdapterFactory;
 import Products.Product;
@@ -18,7 +19,6 @@ import eNums.eInvoice;
 public class Order{
 	private String serial;
 	private int amount;
-	private double profit;
 	private Product product;
 	private Customer customer;
 	private Set<IInvoice> allInvoice;
@@ -27,7 +27,6 @@ public class Order{
 		this.product = product;
 		this.customer = customer;
 		this.amount = amount;
-		this.profit  = 5;//TODO: from DB BY SERIAL FIND
 		this.allInvoice = new HashSet<IInvoice>();
 		this.serial = serial;
 		initInvoice();	
@@ -96,7 +95,13 @@ public class Order{
 	}
 	
 	public double getProfit() {
-		return profit;
+		try {
+			OrderTable ot = new OrderTable(DatabaseConnection.getConnection());
+			return ot.getProfitBySerial(this.serial);
+		}catch(Exception e) {
+			return 0;
+		}
+		
 	}
 
 	@Override

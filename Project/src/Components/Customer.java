@@ -64,7 +64,6 @@ public class Customer{
 	}
 
 	@Override
-	//TODO: fix the print
 	public String toString() {
 		return "Customer Name: " + customerName + "\tmobile: " + mobile;
 	}

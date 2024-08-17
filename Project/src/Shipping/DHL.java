@@ -15,7 +15,6 @@ public class DHL extends ShippingCompany{
 
 
     public double calculateStandardShippingFee(double sellingPrice,double importTax) {
-    	//TODO: add import tax calc
     	double shippingFee=PRECENT_FEE_PRODUCT * sellingPrice;
 		if(shippingFee > MAX_SHIP_PRICE)
 			shippingFee = MAX_SHIP_PRICE;

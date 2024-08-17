@@ -99,10 +99,16 @@ public class Program {
 		}
 	}
 	
-	public static void orderRouteMenu(Scanner sc,SystemFacade sf) {
-		String orderID = getSerialOrder(sc, sf);
+	public static void orderRouteMenu(Scanner sc,SystemFacade sf) {	
+		String orderID;
+		System.out.println("Enter order id");
+		orderID=sc.nextLine();
 		String res = sf.findAllTracksByOrderID(orderID);
-		System.out.println(res);
+		if(res.equals("")) {
+			FormatsUtils.failureMsg("There is not an order with that ID\n");
+		}else {
+			System.out.println(res);
+		}
 	}
 	
 	public static void removeOrderMenu(Scanner sc,SystemFacade sf) {
@@ -192,7 +198,7 @@ public class Program {
 		System.out.println("Please enter order serial");
 		serial = sc.nextLine();
 		try {
-			if(!systemFacade.isSerialOrderExist(serial))
+			if(systemFacade.isSerialOrderExist(serial))
 				return null;
 			return serial;
 		}catch(Exception e) {

@@ -26,8 +26,6 @@ public class WebsiteOrder extends Order{
 	private eStatus status;
 	private eShipType shipType;
 	private double shippingFee;
-	
-	//private double shippingPrice; will be calc in the controller TODO: check
 
 	public WebsiteOrder(Product product, Customer customer, 
 			int amount,
@@ -98,10 +96,7 @@ public class WebsiteOrder extends Order{
 		return st.findCompanyByID(this.companyID);
 	}
 
-	public void setCompany(int companyID) {
-		//TODO: NEED query here
-		this.companyID = companyID;
-	}
+	
 
 	/*
 	 * the shipping price is the average of VAT in all the country at need to visit

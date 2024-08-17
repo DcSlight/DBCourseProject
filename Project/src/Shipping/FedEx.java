@@ -15,7 +15,6 @@ public class FedEx extends ShippingCompany{
     }
 	
 	public double calculateStandardShippingFee(double weight,double importTax) {
-		//TODO: add the import tax
     	return (weight / PRODUCT_WEIGHT)*FEE_STANDARD;
     }
 

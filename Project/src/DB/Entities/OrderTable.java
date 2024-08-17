@@ -77,6 +77,11 @@ public class OrderTable extends BasicTable<String,Object> {
 		PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.executeUpdate();
     }
+    
+    public double getProfitBySerial(String orderID) throws Exception {
+    	ResultSet rs =findBy(orderID, orderID);
+    	return rs.getDouble("profit");
+    }
 
     public void updateOrderById(String orderID, Order order) throws Exception {
         Map<String, Object> entityMap = new HashMap<>();

@@ -2,7 +2,6 @@ package Shipping;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import Interfaces.ICommand;
 import Products.Product;
 import eNums.eShipType;
@@ -58,7 +57,7 @@ public class ShippingInvoker {
 	private IShippingReceiver calculateCheapestShipping(Set<ICommand> commands) {
 		double cheapestPrice = Double.MAX_VALUE;
 		IShippingReceiver cheappestReciever = null;
-		double importTax = 1; //TODO: need to take from the DB
+		double importTax = 20;
 		for (ICommand command : commands) {
 			IShippingReceiver receiver = command.execute(importTax); // Assume execute() returns the IShippingReceiver
 			double price = receiver.getPrice();
@@ -67,7 +66,6 @@ public class ShippingInvoker {
 				cheappestReciever = receiver;
 			}
 		}
-
 		return cheappestReciever;
 	}
 }

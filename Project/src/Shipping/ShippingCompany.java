@@ -29,13 +29,11 @@ public abstract class ShippingCompany implements IObserver{
 
 	public void addContact(Contact contact) {
 		this.contactList.add(contact);
-		//TODO: ADD TO DB
 	}
 	
-	public void deleteContact(Contact contact) {
-		this.contactList.remove(contact);
-		//TODO: REMOVE FROM DB
-	}
+//	public void deleteContact(Contact contact) {
+//		this.contactList.remove(contact);
+//	}
 
 	@Override
 	public int hashCode() {
@@ -56,7 +54,6 @@ public abstract class ShippingCompany implements IObserver{
 
 	@Override
 	public String toString() {
-		//TODO: modify
 		return "Shipping Company: " + getName() + "\n" + contactList.toString() ;
 	}
 	

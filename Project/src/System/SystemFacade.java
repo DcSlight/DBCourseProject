@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.TreeSet;
 import Components.Customer;
 import DB.DatabaseConnection;
 import DB.Entities.OrderTable;
@@ -37,7 +36,6 @@ import eNums.eStatus;
 
 public class SystemFacade {
 	private static SystemFacade instance;
-	private Set<Product> products;//TODO : remove
 	private ShippingInvoker shippingInvoker;
 	private ObserverManagment obs;
 	private OrderController orderContorller;
@@ -48,7 +46,6 @@ public class SystemFacade {
 	
 	private SystemFacade() throws SQLException, Exception {
 		this.conn = DatabaseConnection.getConnection();
-		this.products = new TreeSet<>();
 		this.shippingInvoker = new ShippingInvoker();
 		this.orderContorller = new OrderController();
 		initCompanies();
@@ -64,6 +61,19 @@ public class SystemFacade {
 		WebsiteOrderTracksView wv = new WebsiteOrderTracksView(conn);
 		wv.deleteOrderWebsite(serialOrder);
 		return rowsAffected;	
+	}
+	
+	public boolean isSerialProductExist(String productSerial) {
+		ProductTable pt = new ProductTable(conn);
+		Product p;
+		try {
+			p = pt.findProductBySerial(productSerial);
+			if(p!=null)
+				return true;
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	 
@@ -170,14 +180,6 @@ public class SystemFacade {
 		return pt.findProductBySerial(serial);
 	}
 	
-	public boolean isSerialProductExist(String Serial) {
-		for (Product product : products) {
-			if (product.getSerial().equals(Serial))
-				return true;
-		}
-		return false;
-	}
-	
 	public boolean isSerialOrderExist(String serial) throws Exception {
 		OrderTable ot = new OrderTable(this.conn);
 		Order o = ot.findOrderBySerial(serial);
@@ -198,15 +200,6 @@ public class SystemFacade {
 	public void addProductToDB(Product product) throws Exception {
 		ProductTable pt = new ProductTable(this.conn);
 		pt.createProduct(product);
-	}
-	
-	public boolean removeProduct(Product product) {
-		orderContorller.removeOrdersOfProducts(product);
-		if(products.contains(product)) {
-			this.products.remove(product);
-			return true;
-		}
-		return false;
 	}
 	
 	public String findAllTracksByOrderID(String orderID) {
@@ -232,10 +225,6 @@ public class SystemFacade {
 		}catch(Exception e) {
 			return null;
 		}
-	}
-	
-	public Set<Product> getProducts(){
-		return this.products;
 	}
 	
 //	public Set<ShippingCompany> getCompanies(){
