@@ -98,7 +98,7 @@ CREATE TABLE shipping_status (
 CREATE TYPE eShipType AS ENUM ('eExpress', 'eStandard', 'eNone');
 
 CREATE TABLE order_website (
-    order_id VARCHAR(255) NOT NULL,
+    order_id VARCHAR(255) UNIQUE NOT NULL,
 	ship_type eShipType NOT NULL DEFAULT 'eNone',
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
 );
@@ -168,8 +168,7 @@ CREATE TABLE shippment_route (
     status_id INT,
     tracks_id INT,
     PRIMARY KEY (order_id, status_id, tracks_id),
-    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES order_website(order_id) ON DELETE CASCADE,
     FOREIGN KEY (status_id) REFERENCES shipping_status(status_code) ON DELETE CASCADE,
     FOREIGN KEY (tracks_id) REFERENCES tracks(track_id) ON DELETE CASCADE
 );
-

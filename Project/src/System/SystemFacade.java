@@ -70,10 +70,12 @@ public class SystemFacade {
 	}
 	
 	public int removeOrder(String serialOrder) throws Exception {
+		int rowsAffected;
+		OrderTable orderTable = new OrderTable(conn);
+		rowsAffected = orderTable.deleteOrder(serialOrder);
 		WebsiteOrderTracksView wv = new WebsiteOrderTracksView(conn);
 		wv.deleteOrderWebsite(serialOrder);
-		OrderTable orderTable = new OrderTable(conn);
-		return orderTable.deleteOrder(serialOrder);
+		return rowsAffected;	
 	}
 	
 	 

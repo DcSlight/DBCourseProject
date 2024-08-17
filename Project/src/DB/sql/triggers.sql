@@ -19,3 +19,22 @@ CREATE TRIGGER after_insert_make_order
 AFTER INSERT ON make_order
 FOR EACH ROW
 EXECUTE FUNCTION calculate_order_profit();
+
+--deleteing website order --
+CREATE OR REPLACE FUNCTION cascade_delete_from_shippment_route()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM order_website WHERE order_id = OLD.order_id;
+    
+    DELETE FROM tracks WHERE track_id = OLD.tracks_id;
+    
+    DELETE FROM shipping_status WHERE status_code = OLD.status_id;
+    
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER after_delete_shippment_route
+AFTER DELETE ON shippment_route
+FOR EACH ROW
+EXECUTE FUNCTION cascade_delete_from_shippment_route();

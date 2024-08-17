@@ -58,7 +58,6 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
     			+ "FROM inserted_tracks, inserted_status;\r\n"
     			+ "\r\n"
     			+ "COMMIT;";
-    	System.out.println(sql);
     	PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.executeUpdate();
     }
@@ -113,7 +112,7 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
 	 }
 
     public int deleteOrderWebsite(String orderID) throws Exception {
-    	 String sql = "DELETE FROM order_website WHERE order_id = ?";
+    	 String sql = "DELETE FROM shippment_route WHERE order_id = ?";
     	 PreparedStatement stmt = conn.prepareStatement(sql);
          stmt.setObject(1, orderID);
          return stmt.executeUpdate();
