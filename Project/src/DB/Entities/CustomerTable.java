@@ -5,15 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-
-import Components.Country;
 import Components.Customer;
 import DB.BasicTable;
 import DB.DatabaseConnection;
-import Order.Order;
 
 public class CustomerTable extends BasicTable<String,Object> {
 	

@@ -4,10 +4,8 @@ import java.sql.SQLException;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import DB.DatabaseConnection;
 import DB.Entities.OrderTable;
-import DB.Entities.ProductTable;
 import Exception.StockException;
 import Order.Order;
 import Utils.FormatsUtils;

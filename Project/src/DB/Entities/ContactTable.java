@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Components.Contact;
-import Components.Customer;
 import DB.BasicTable;
 
 public class ContactTable extends BasicTable<String,Object> {

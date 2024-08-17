@@ -1,6 +1,4 @@
 package Shipping;
-
-import Components.Contact;
 import Observer.ObserverManagment;
 
 public class FedEx extends ShippingCompany{

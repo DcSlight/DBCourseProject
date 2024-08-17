@@ -8,14 +8,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import Components.Contact;
 import Components.Customer;
 import DB.BasicTable;
 import Order.Order;
 import Products.Product;
 import Products.ProductFactory;
-import System.SystemFacade;
 import eNums.eProduct;
 
 public class OrderTable extends BasicTable<String,Object> {
@@ -24,7 +21,6 @@ public class OrderTable extends BasicTable<String,Object> {
 	private String amount = "amount";
 	private String productSerial = "product_serial";
 	private String customerId = "customer_id";
-	private String profit = "profit";
 
     public OrderTable(Connection conn) {
         super(conn, "orders");

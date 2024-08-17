@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import Components.Country;
-import Components.Customer;
 import DB.BasicTable;
 
 public class CountryTable extends BasicTable<String,Object> {

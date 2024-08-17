@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import DB.BasicTable;
 import Shipping.Track;
 import eNums.eShipMethod;
@@ -19,7 +16,6 @@ public class WebsiteOrderTracksView extends BasicTable<String,Object> {
 	private String dateDeparture = "date_departure";
 	private String toCountryID = "to_country_id";
 	private String dateArrive = "date_arrive";
-	private String orderID = "order_id";
 
     public WebsiteOrderTracksView(Connection conn) {
         super(conn, "shipping_order_tracks_view");

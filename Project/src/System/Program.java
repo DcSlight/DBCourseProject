@@ -1,25 +1,17 @@
 package System;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.Set;
-
-import Components.Country;
 import Components.Customer;
 import DB.DatabaseConnection;
 import DB.Entities.CountryTable;
 import DB.Entities.CustomerTable;
-import DB.Entities.OrderTable;
 import DB.Entities.ProductTable;
 import Exception.StockException;
 import Products.Product;
 import Products.ProductFactory;
 import Products.ProductSoldThroughWebsite;
-import Shipping.Track;
 import Utils.FormatsUtils;
 import eNums.eProduct;
 import eNums.eShipType;

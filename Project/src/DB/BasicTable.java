@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
 
-import eNums.eProduct;
-
 public abstract class BasicTable<K, V> implements ICRUD<K, V>{
 	protected Connection conn;
 	protected String tableName;

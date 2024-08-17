@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import Components.Customer;
 import DB.BasicTable;
 import Products.Product;
 import Products.ProductFactory;
