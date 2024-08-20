@@ -4,6 +4,17 @@
 1. Idan Noyshul 207813635
 2. Sapir Gilany 322358284
 
+---------------- Running DB --------------------------------------
+1. Open Project/src/DB/sql directory.
+2. Open the file full_data_tables.sql in pgAdmin and run it to create a DB with some data.
+3. On sql folder there 3 more sql files, they are separate (1 for tables, 1 for triggers and 1 for data)
+   the file full_data_tables.sql contains the 3 of them.
+
+---------------- Run Project --------------------------------------	
+1. Open project System directory 
+2. run Program.java
+
+
 ------------------ Folder Structure ------------------------------
 1. SRC - java classes
 	Packages:
