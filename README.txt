@@ -1,8 +1,8 @@
 ------------------ README ----------------------------------------
 
 ------------------ STUDENTS --------------------------------------
-1. Idan Noyshul 207813635
-2. Sapir Gilany 322358284
+1. Idan Noyshul
+2. Sapir Gilany
 
 ---------------- Running DB --------------------------------------
 1. Open Project/src/DB/sql directory.
